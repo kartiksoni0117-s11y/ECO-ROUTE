@@ -1,0 +1,470 @@
+#real-gwalior-map {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background: #e7edf0;
+}
+
+.leaflet-container {
+  font: inherit;
+}
+
+.leaflet-control-attribution {
+  font-size: 10px !important;
+}
+
+.ecoroute-div-icon {
+  background: transparent;
+  border: 0;
+}
+
+.ecoroute-marker {
+  display: grid;
+  width: 34px;
+  height: 34px;
+  place-items: center;
+  color: #fff;
+  border: 2px solid #fff;
+  border-radius: 50%;
+  box-shadow: 0 2px 8px rgb(15 23 42 / 35%);
+}
+
+.ecoroute-marker .material-symbols-outlined {
+  font-size: 18px;
+}
+
+.marker-critical {
+  background: #dc2626;
+}
+
+.marker-filling {
+  background: #d97706;
+}
+
+.marker-normal {
+  background: #059669;
+}
+
+.marker-trucks {
+  width: 38px;
+  height: 38px;
+  background: #0f766e;
+  border-radius: 12px;
+}
+
+.site-settings-dialog {
+  width: min(420px, calc(100vw - 32px));
+  padding: 0;
+  color: #191c1e;
+  border: 1px solid #d6ded9;
+  border-radius: 14px;
+  box-shadow: 0 20px 50px rgb(15 23 42 / 20%);
+}
+
+.site-settings-dialog::backdrop {
+  background: rgb(15 23 42 / 42%);
+}
+
+.site-settings-dialog form {
+  display: grid;
+  gap: 18px;
+  padding: 22px;
+}
+
+.site-settings-dialog header {
+  position: static;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  height: auto;
+  padding: 0;
+  background: transparent;
+  box-shadow: none;
+}
+
+.site-settings-dialog h2 {
+  margin: 0;
+  font-size: 21px;
+}
+
+.settings-eyebrow {
+  margin: 0 0 6px;
+  color: #006948;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+}
+
+.settings-close {
+  padding: 0 8px;
+  color: #475569;
+  font-size: 24px;
+  background: transparent;
+  border: 0;
+  cursor: pointer;
+}
+
+.site-settings-dialog label {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 14px;
+}
+
+.settings-recenter {
+  padding: 10px 12px;
+  color: #fff;
+  font-weight: 600;
+  background: #006948;
+  border: 0;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.dashboard-command-header {
+  height: auto !important;
+  min-height: 4rem;
+  flex-wrap: wrap !important;
+  align-content: center;
+}
+
+.dashboard-command-header > div:first-child {
+  flex: 1 1 19rem;
+  min-width: 0;
+}
+
+.dashboard-command-header > div:first-child > div:first-child {
+  min-width: 0;
+}
+
+.dashboard-command-header > div:first-child > div:first-child > div:first-child {
+  flex-wrap: wrap;
+}
+
+.dashboard-command-header > div:nth-child(2) {
+  flex: 1 1 14rem;
+  min-width: 0;
+}
+
+.dashboard-command-header > div:last-child {
+  flex: 0 1 auto;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  min-width: 0;
+}
+
+.dashboard-map-visuals {
+  position: absolute;
+  inset: 0;
+  transform-origin: 0 0;
+  transition: transform 180ms ease-out;
+}
+
+.site-settings-dialog .dialog-copy {
+  margin: 0;
+  color: #475569;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.site-settings-dialog .dialog-select {
+  width: 100%;
+  padding: 8px 10px;
+  color: #1e293b;
+  background: #fff;
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+}
+
+.site-settings-dialog .dialog-zone {
+  display: grid;
+  align-items: stretch;
+  gap: 8px;
+}
+
+.site-settings-dialog .dialog-status {
+  margin: 0;
+  padding: 10px 12px;
+  color: #7c2d12;
+  font-size: 13px;
+  line-height: 1.45;
+  background: #fff7ed;
+  border: 1px solid #fed7aa;
+  border-radius: 8px;
+}
+
+.site-settings-dialog .dialog-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.site-settings-dialog .dialog-actions button {
+  padding: 8px 10px;
+  color: #006948;
+  font-weight: 600;
+  background: #ecfdf5;
+  border: 1px solid #a7f3d0;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.dashboard-sidebar-collapsed aside.fixed {
+  width: 4.5rem;
+}
+
+.dashboard-sidebar-collapsed .pl-64 {
+  padding-left: 4.5rem !important;
+}
+
+.dashboard-sidebar-collapsed aside.fixed nav a {
+  justify-content: center;
+  padding-right: 0.5rem;
+  padding-left: 0.5rem;
+}
+
+.dashboard-sidebar-collapsed aside.fixed nav a > div > span:not(:first-child),
+.dashboard-sidebar-collapsed aside.fixed nav a > span,
+.dashboard-sidebar-collapsed aside.fixed > div:first-child > div:first-child > div:first-child > div:last-child,
+.dashboard-sidebar-collapsed aside.fixed > div:last-child {
+  display: none;
+}
+
+.dashboard-map-empty {
+  padding: 12px;
+  color: #64748b;
+  font-size: 12px;
+  text-align: center;
+}
+
+main button[aria-pressed="true"] {
+  outline: 2px solid rgb(52 211 153 / 65%);
+  outline-offset: 1px;
+}
+
+@media (max-width: 760px) {
+  aside.fixed {
+    width: 4.5rem;
+  }
+
+  aside.fixed nav a {
+    justify-content: center;
+    padding-right: 0.5rem;
+    padding-left: 0.5rem;
+  }
+
+  aside.fixed nav a > div > span:not(:first-child),
+  aside.fixed nav a > span,
+  aside.fixed > div:first-child > div:first-child > div:first-child > div:last-child,
+  aside.fixed > div:last-child {
+    display: none;
+  }
+
+  .pl-64 {
+    padding-left: 4.5rem !important;
+  }
+
+  header.fixed {
+    left: 4.5rem !important;
+    gap: 0.5rem;
+    padding-right: 0.5rem;
+    padding-left: 0.5rem;
+  }
+
+  header.fixed > div:first-child {
+    display: none;
+  }
+
+  header.fixed > div:nth-child(2) {
+    flex: 1;
+    min-width: 0;
+    margin: 0;
+  }
+
+  header.fixed > div:last-child {
+    gap: 0.25rem;
+  }
+
+  .dashboard-command-header {
+    gap: 0.5rem;
+    padding: 0.75rem;
+  }
+
+  .dashboard-command-header > div:first-child {
+    flex: 1 1 100%;
+    order: 1;
+  }
+
+  .dashboard-command-header > div:nth-child(2) {
+    display: flex !important;
+    flex: 1 1 100%;
+    order: 3;
+    max-width: none;
+    margin: 0;
+  }
+
+  .dashboard-command-header > div:last-child {
+    flex: 1 1 auto;
+    order: 2;
+    justify-content: flex-start;
+  }
+
+  .dashboard-command-header > div:last-child > div {
+    display: none;
+  }
+
+  body.dashboard-sidebar-expanded aside.fixed {
+    width: 16rem;
+    box-shadow: 12px 0 28px rgb(15 23 42 / 25%);
+  }
+
+  body.dashboard-sidebar-expanded .pl-64 {
+    padding-left: 16rem !important;
+  }
+
+  body.dashboard-sidebar-expanded aside.fixed nav a {
+    justify-content: space-between;
+    padding-right: 0.75rem;
+    padding-left: 0.75rem;
+  }
+
+  body.dashboard-sidebar-expanded aside.fixed nav a > div > span:not(:first-child),
+  body.dashboard-sidebar-expanded aside.fixed nav a > span,
+  body.dashboard-sidebar-expanded aside.fixed > div:first-child > div:first-child > div:first-child > div:last-child,
+  body.dashboard-sidebar-expanded aside.fixed > div:last-child {
+    display: initial;
+  }
+
+  body.dashboard-sidebar-expanded aside.fixed nav a > span {
+    display: inline-flex;
+  }
+
+  body.dashboard-sidebar-expanded aside.fixed > div:last-child {
+    display: block;
+  }
+
+  #inspector-drawer {
+    top: auto;
+    right: 0.5rem;
+    bottom: 4.5rem;
+    left: 0.5rem;
+    width: auto;
+    height: 42vh;
+    min-height: 190px;
+    max-height: 340px;
+  }
+
+  #dashboard-inspector {
+    top: 0.5rem;
+    left: 0.5rem;
+    width: min(20rem, calc(100% - 1rem));
+  }
+
+  #waste-composition-card > .flex.items-center.gap-6 {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+
+  #waste-composition-card > .flex.items-center.gap-6 > div:last-child {
+    width: 100%;
+    min-width: 0;
+  }
+}
+
+@media (max-width: 900px) {
+  .dashboard-map-pin-phool-bagh {
+    left: 44.22% !important;
+    right: auto !important;
+  }
+
+  .dashboard-map-pin-city-centre {
+    left: 77.03% !important;
+    right: auto !important;
+  }
+
+  .dashboard-map-pin-thatipur {
+    left: 63.77% !important;
+    right: auto !important;
+  }
+
+  .dashboard-map-pin-sarafa {
+    left: 27.1% !important;
+    right: auto !important;
+  }
+
+  .dashboard-map-pin-thatipur-chowk {
+    left: 53.5% !important;
+    right: auto !important;
+  }
+
+  .dashboard-map-pin-maharaj-bada {
+    left: 17.83% !important;
+    right: auto !important;
+  }
+
+  .dashboard-map-pin-morar {
+    left: 73.47% !important;
+    right: auto !important;
+  }
+}
+
+@media (max-width: 340px) {
+  .dashboard-sector-tabs {
+    width: 100%;
+    min-width: 0;
+    max-width: 100%;
+    flex-wrap: wrap;
+  }
+
+  .dashboard-sector-tabs > button {
+    flex: 1 1 4.5rem;
+    min-width: 0;
+    white-space: normal;
+  }
+
+  .route-manifest-summary {
+    min-width: 0;
+    flex-wrap: wrap;
+  }
+
+  .route-manifest-summary > .flex.items-center {
+    flex: 1 1 100%;
+    min-width: 0;
+  }
+
+  .route-manifest-summary > .flex.items-center > div:last-child {
+    min-width: 0;
+  }
+
+  .route-manifest-summary > .flex.items-center > div:last-child > div:first-child {
+    flex-wrap: wrap;
+  }
+
+  .route-manifest-summary > .text-right {
+    margin-left: auto;
+  }
+}
+
+@media print {
+  aside,
+  .dashboard-command-header,
+  button {
+    display: none !important;
+  }
+
+  .pl-64 {
+    padding-left: 0 !important;
+  }
+
+  main {
+    width: 100% !important;
+    max-width: none !important;
+    padding: 0.5in !important;
+  }
+
+  section,
+  .map-grid-pattern {
+    break-inside: avoid;
+  }
+}

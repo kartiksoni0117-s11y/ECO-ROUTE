@@ -1,0 +1,1336 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>EcoRoute Gwalior | Smart Waste Collection &amp; Route Optimization System</title>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&amp;family=JetBrains+Mono:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script>
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              50: '#ecfdf5',
+              100: '#d1fae5',
+              400: '#34d399',
+              500: '#10b981',
+              600: '#059669',
+              700: '#047857',
+              900: '#064e3b',
+              glow: 'rgba(16, 185, 129, 0.22)'
+            },
+            slate: {
+              850: '#111827',
+              900: '#0f172a',
+              925: '#0b1120',
+              950: '#080d1a',
+            }
+          },
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+            mono: ['"JetBrains Mono"', 'monospace'],
+          },
+          boxShadow: {
+            'card': '0 1px 3px 0 rgba(15, 23, 42, 0.05), 0 1px 2px -1px rgba(15, 23, 42, 0.05)',
+            'elevated': '0 10px 25px -5px rgba(15, 23, 42, 0.08), 0 8px 10px -6px rgba(15, 23, 42, 0.05)',
+            'glow-emerald': '0 0 20px -3px rgba(16, 185, 129, 0.35)',
+            'glow-rose': '0 0 20px -3px rgba(244, 63, 94, 0.4)'
+          }
+        }
+      }
+    }
+  </script>
+<style>
+    @layer base {
+      html, body {
+        margin: 0;
+        padding: 0;
+        background-color: #f8fafc;
+        color: #0f172a;
+        font-family: 'Inter', sans-serif;
+        -webkit-font-smoothing: antialiased;
+      }
+      ::-webkit-scrollbar {
+        width: 6px;
+        height: 6px;
+      }
+      ::-webkit-scrollbar-track {
+        background: transparent;
+      }
+      ::-webkit-scrollbar-thumb {
+        background: #cbd5e1;
+        border-radius: 9999px;
+      }
+      ::-webkit-scrollbar-thumb:hover {
+        background: #94a3b8;
+      }
+    }
+    .map-grid-pattern {
+      background-size: 28px 28px;
+      background-image: 
+        linear-gradient(to right, rgba(148, 163, 184, 0.08) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(148, 163, 184, 0.08) 1px, transparent 1px);
+    }
+  </style>
+</head>
+<body class="bg-[#f8fafc] text-slate-900 font-sans min-h-screen antialiased flex">
+<!-- ========================================================================= -->
+<!-- SIDEBAR: ULTRA-CLEAN ENTERPRISE & COLLEGE CAPSTONE CHROME                 -->
+<!-- ========================================================================= -->
+<aside class="fixed left-0 top-0 h-full w-64 bg-slate-950 text-slate-300 z-50 flex flex-col justify-between border-r border-slate-800 shadow-2xl select-none">
+<div class="flex flex-col">
+<!-- App Brandmark -->
+<div class="h-16 px-5 flex items-center justify-between border-b border-slate-800/80 bg-slate-950/90 backdrop-blur-md">
+<div class="flex items-center gap-3">
+<div class="h-9 w-9 rounded-xl bg-gradient-to-tr from-brand-600 to-brand-400 p-[1px] shadow-glow-emerald flex items-center justify-center">
+<div class="h-full w-full bg-slate-950 rounded-[11px] flex items-center justify-center">
+<span class="material-symbols-outlined text-[20px] text-brand-400">recycling</span>
+</div>
+</div>
+<div class="flex flex-col">
+<div class="flex items-center gap-1.5">
+<span class="font-bold text-[16px] tracking-tight text-white font-sans">EcoRoute</span>
+<span class="px-1.5 py-0.5 text-[9px] font-mono font-semibold uppercase tracking-wider bg-brand-500/10 text-brand-400 border border-brand-500/30 rounded">VIVA DEMO</span>
+</div>
+<span class="text-[10px] font-mono tracking-wider text-slate-400 uppercase font-medium">Smart City Gwalior</span>
+</div>
+</div>
+<button class="p-1.5 text-slate-400 hover:text-white rounded-lg hover:bg-slate-800/60 transition-colors" title="Toggle Navigation">
+<span class="material-symbols-outlined text-[18px]">dock_to_left</span>
+</button>
+</div>
+<!-- Live Sector Pill -->
+<div class="px-4 pt-4 pb-2">
+<div class="p-3 rounded-xl bg-slate-900 border border-slate-800 flex items-center justify-between">
+<div class="flex items-center gap-2 min-w-0">
+<span class="relative flex h-2.5 w-2.5 flex-shrink-0">
+<span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-amber-400 opacity-75"></span>
+<span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-amber-500"></span>
+</span>
+<div class="flex flex-col truncate">
+<span class="text-[11px] font-semibold text-white tracking-tight truncate">Gwalior Municipal Grid</span>
+<span class="text-[10px] font-mono text-amber-300/90">Simulation Mode: Active</span>
+</div>
+</div>
+<span class="px-2 py-0.5 rounded text-[10px] font-mono font-bold bg-slate-800 text-brand-400 border border-slate-700">AI-GA</span>
+</div>
+</div>
+<!-- Navigation Links -->
+<nav class="flex flex-col gap-1 px-3 py-2">
+<a aria-current="page" class="flex items-center justify-between px-3 py-2 rounded-xl text-sm font-medium bg-brand-500 text-slate-950 font-semibold shadow-glow-emerald transition-all" href="#">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-[20px]">dashboard</span>
+<span class="text-[13px] tracking-tight">Overview Dashboard</span>
+</div>
+<span class="material-symbols-outlined text-[14px]">arrow_forward</span>
+</a>
+<a class="flex items-center justify-between px-3 py-2 rounded-xl text-sm font-medium text-slate-400 hover:text-white hover:bg-slate-900 transition-colors group" href="#">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-[20px] group-hover:text-brand-400 transition-colors">map</span>
+<span class="text-[13px] tracking-tight">Gwalior Live GIS Map</span>
+</div>
+<span class="inline-flex h-2 w-2 rounded-full bg-brand-400 shadow-[0_0_8px_#34d399]"></span>
+</a>
+<a class="flex items-center justify-between px-3 py-2 rounded-xl text-sm font-medium text-slate-400 hover:text-white hover:bg-slate-900 transition-colors group" href="#">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-[20px] group-hover:text-brand-400 transition-colors">alt_route</span>
+<span class="text-[13px] tracking-tight">Route Optimization</span>
+</div>
+<span class="text-[10px] font-mono font-semibold px-1.5 py-0.5 rounded bg-slate-800 text-slate-300">Genetic Alg.</span>
+</a>
+<a class="flex items-center justify-between px-3 py-2 rounded-xl text-sm font-medium text-slate-400 hover:text-white hover:bg-slate-900 transition-colors group" href="#">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-[20px] group-hover:text-brand-400 transition-colors">delete_sweep</span>
+<span class="text-[13px] tracking-tight">Smart Bins &amp; Sensors</span>
+</div>
+<span class="text-[10px] font-mono px-1.5 py-0.5 rounded bg-rose-500/20 text-rose-300 font-semibold border border-rose-500/30">12 Urgent</span>
+</a>
+<a class="flex items-center justify-between px-3 py-2 rounded-xl text-sm font-medium text-slate-400 hover:text-white hover:bg-slate-900 transition-colors group" href="#">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-[20px] group-hover:text-brand-400 transition-colors">local_shipping</span>
+<span class="text-[13px] tracking-tight">Vehicle Fleet (GPS)</span>
+</div>
+<span class="text-[10px] font-mono text-slate-400">16/20</span>
+</a>
+<a class="flex items-center justify-between px-3 py-2 rounded-xl text-sm font-medium text-slate-400 hover:text-white hover:bg-slate-900 transition-colors group" href="#">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-[20px] group-hover:text-brand-400 transition-colors">monitoring</span>
+<span class="text-[13px] tracking-tight">Zone Performance &amp; SLA</span>
+</div>
+</a>
+<a class="flex items-center justify-between px-3 py-2 rounded-xl text-sm font-medium text-slate-400 hover:text-white hover:bg-slate-900 transition-colors group" href="#">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-[20px] group-hover:text-brand-400 transition-colors">history</span>
+<span class="text-[13px] tracking-tight">Operational Audit Log</span>
+</div>
+</a>
+</nav>
+</div>
+<!-- User Profile & Academic Demonstration Box -->
+<div class="p-3 border-t border-slate-800/80 bg-slate-950/60">
+<div class="p-3 rounded-xl bg-slate-900 border border-slate-800 flex items-center justify-between gap-2">
+<div class="flex items-center gap-2.5 min-w-0">
+<div class="relative flex-shrink-0">
+<img alt="Project Demonstrator" class="w-8 h-8 rounded-full object-cover ring-2 ring-brand-500/40" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDwZPWIQR2iXU5XTolr9f1Frdmz9tUaK7YgzqTDjWm2YHrOHo_JJGYlueKFw8lcQUK_0m3iceprwfhe1MoaA2ZS2YmUHW6PJhAeFgt0Xh32p621ijo6aLeiaRYxz2w_JzDLGQ5-b8QnEg0vppyGKw-4bnMDKo_ADQ7O3mfwD_MuAUHhI7mpE21mXjhvizI8YKDVXzlzlfOyANiJ3274m8dm6iKOXb_P5P8NG70W8Zk"/>
+<span class="absolute bottom-0 right-0 w-2 h-2 rounded-full bg-emerald-400 ring-2 ring-slate-900"></span>
+</div>
+<div class="flex flex-col truncate">
+<span class="text-[12px] font-semibold text-white tracking-tight truncate leading-tight">Student Demo Lead</span>
+<span class="text-[10px] font-mono text-emerald-400 truncate leading-tight">Final Year B.Tech Viva</span>
+</div>
+</div>
+<button class="p-1 text-slate-400 hover:text-white rounded hover:bg-slate-800 transition-colors" title="Settings">
+<span class="material-symbols-outlined text-[16px]">settings</span>
+</button>
+</div>
+</div>
+</aside>
+<!-- ========================================================================= -->
+<!-- MAIN WORKSPACE CONTENT WRAPPER                                            -->
+<!-- ========================================================================= -->
+<div class="pl-64 flex flex-col flex-1 min-w-0">
+<!-- Top Command Header Bar -->
+<header class="sticky top-0 h-16 bg-white/90 backdrop-blur-md border-b border-slate-200/90 z-40 px-6 flex items-center justify-between gap-4">
+<div class="flex items-center gap-4 min-w-0">
+<div class="flex flex-col">
+<div class="flex items-center gap-2">
+<span class="text-[10px] font-mono font-bold tracking-wider uppercase text-emerald-700 bg-emerald-50 border border-emerald-200 px-2 py-0.5 rounded">GWALIOR MUNICIPAL CORPORATION</span>
+<span class="text-slate-300">•</span>
+<span class="text-[12px] font-mono text-slate-500 font-medium">B.Tech Capstone Viva Demonstration</span>
+</div>
+<span class="text-[13px] font-bold text-slate-900 tracking-tight">Smart Waste Collection &amp; Route Optimization System — Project Demonstration</span>
+</div>
+<div class="hidden lg:flex items-center gap-2 pl-3 border-l border-slate-200">
+<div class="flex items-center gap-1.5 px-3 py-1 rounded-full bg-amber-50 border border-amber-200 text-[11px] font-mono text-amber-800 font-semibold">
+<span class="relative flex h-2 w-2">
+<span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-amber-400 opacity-75"></span>
+<span class="relative inline-flex rounded-full h-2 w-2 bg-amber-500"></span>
+</span>
+<span>Simulation Mode: Active</span>
+</div>
+</div>
+</div>
+<!-- Search & Quick Actions -->
+<div class="hidden md:flex items-center flex-1 max-w-sm mx-2">
+<div class="relative w-full">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-[18px]">search</span>
+<input class="w-full h-9 pl-9 pr-14 bg-slate-100 hover:bg-slate-100/90 focus:bg-white text-slate-800 placeholder:text-slate-400 rounded-lg text-xs font-medium border border-slate-200 focus:border-brand-500 focus:ring-2 focus:ring-brand-500/20 focus:outline-none transition-all" placeholder="Search bin ID (GWL-108), landmark..." type="text"/>
+<kbd class="absolute right-2.5 top-1/2 -translate-y-1/2 px-1.5 py-0.5 text-[10px] font-mono font-semibold text-slate-400 bg-white border border-slate-200 rounded">⌘K</kbd>
+</div>
+</div>
+<div class="flex items-center gap-3 flex-shrink-0">
+<div class="hidden xl:flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-50 border border-emerald-200 text-emerald-800 text-[11px] font-mono font-medium">
+<span class="w-2 h-2 rounded-full bg-emerald-500"></span>
+<span>Sensor Status: Online • 320 Nodes Active</span>
+</div>
+<button class="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-mono font-semibold border border-slate-200 transition-colors">
+<span class="material-symbols-outlined text-[16px] text-amber-600">tune</span>
+<span>Sim Parameters</span>
+</button>
+<button class="flex items-center gap-2 px-3.5 py-1.5 rounded-lg bg-slate-900 hover:bg-slate-800 text-white text-xs font-semibold shadow-card transition-all active:scale-[0.98] border border-slate-800" id="optimizeHeaderBtn">
+<span class="material-symbols-outlined text-[16px] text-brand-400">auto_mode</span>
+<span>Run Optimization Engine</span>
+</button>
+</div>
+</header>
+<!-- Main Body Area -->
+<main class="p-6 flex flex-col gap-6 w-full max-w-[1720px] mx-auto">
+<!-- ===================================================================== -->
+<!-- SECTION 1: OPERATIONS COMMAND STRIP (GWALIOR FOCUS)                   -->
+<!-- ===================================================================== -->
+<div class="flex flex-col lg:flex-row lg:items-center justify-between gap-4 p-5 rounded-2xl bg-white border border-slate-200/90 shadow-card">
+<div class="flex flex-col gap-1">
+<div class="flex items-center gap-2.5 flex-wrap">
+<h1 class="text-xl font-bold tracking-tight text-slate-900">Gwalior Municipal Waste Logistics &amp; Dynamic Route Optimization</h1>
+<span class="px-2.5 py-0.5 rounded-full text-[11px] font-mono font-semibold bg-emerald-100 text-emerald-800 border border-emerald-200 flex items-center gap-1.5">
+<span class="w-1.5 h-1.5 rounded-full bg-emerald-600 animate-pulse"></span>
+            AI Route Optimization Engine (Genetic Algorithm &amp; Smart Routing)
+          </span>
+</div>
+<p class="text-xs text-slate-500 leading-relaxed">
+          Gwalior Smart City Demo Grid (Lashkar &amp; City Centre Sectors) • Simulation Mode Active. Evaluating ultrasonic fill sensors, real-time dynamic rerouting, and municipal compactor dispatch.
+        </p>
+</div>
+<div class="flex items-center gap-2.5 flex-wrap">
+<div class="flex items-center bg-slate-100 p-0.5 rounded-lg border border-slate-200 text-xs font-medium">
+<button class="px-3 py-1 rounded-md bg-white text-slate-900 font-semibold shadow-sm">Lashkar &amp; Maharaj Bada</button>
+<button class="px-3 py-1 rounded-md text-slate-600 hover:text-slate-900 transition-colors">City Centre &amp; Thatipur</button>
+<button class="px-3 py-1 rounded-md text-slate-600 hover:text-slate-900 transition-colors">Morar Sector</button>
+</div>
+<div class="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-emerald-50 border border-emerald-200 text-xs font-mono font-semibold text-emerald-800 shadow-sm">
+<span class="material-symbols-outlined text-[16px] text-emerald-600">speed</span>
+<span>Simulation Speed: 5x</span>
+</div>
+<button class="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-white border border-slate-200 hover:bg-slate-50 text-slate-700 text-xs font-semibold shadow-sm transition-colors">
+<span class="material-symbols-outlined text-[16px] text-slate-500">download</span>
+<span>Viva Demonstration PDF</span>
+</button>
+</div>
+</div>
+<!-- ===================================================================== -->
+<!-- SECTION 2: TOP 5 TELEMETRY KPI METRICS                                -->
+<!-- ===================================================================== -->
+<section class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-5 gap-4">
+<!-- 1) Total Waste Bins -->
+<div class="bg-white p-4 rounded-2xl border border-slate-200/90 shadow-card flex flex-col justify-between gap-2.5 hover:border-slate-300 transition-all">
+<div class="flex items-start justify-between">
+<div class="flex flex-col">
+<span class="text-[11px] font-mono uppercase tracking-wider text-slate-500 font-medium">Total Waste Bins</span>
+<div class="flex items-baseline gap-1 mt-1">
+<span class="text-3xl font-extrabold text-slate-900 tracking-tight font-sans">320</span>
+<span class="text-xs font-semibold text-slate-400 font-mono">Bins Monitored</span>
+</div>
+</div>
+<div class="h-9 w-9 rounded-xl bg-emerald-50 border border-emerald-200/70 text-emerald-600 flex items-center justify-center">
+<span class="material-symbols-outlined text-[18px]">grid_on</span>
+</div>
+</div>
+<div class="w-full bg-slate-100 h-1.5 rounded-full overflow-hidden">
+<div class="bg-emerald-500 h-full rounded-full" style="width: 83.7%"></div>
+</div>
+<div class="flex items-center justify-between text-xs pt-1 border-t border-slate-100">
+<span class="font-mono text-[11px] text-slate-600 font-semibold">268 Cleared / 52 Pending</span>
+<span class="text-emerald-600 font-mono text-[11px] font-bold">83.7% Done</span>
+</div>
+</div>
+<!-- 2) Overflowing Bins -->
+<div class="bg-white p-4 rounded-2xl border border-rose-200/90 shadow-card flex flex-col justify-between gap-2.5 hover:border-rose-300 transition-all bg-rose-50/20">
+<div class="flex items-start justify-between">
+<div class="flex flex-col">
+<span class="text-[11px] font-mono uppercase tracking-wider text-rose-700 font-medium">Overflowing Bins</span>
+<div class="flex items-baseline gap-1 mt-1">
+<span class="text-3xl font-extrabold text-rose-600 tracking-tight font-sans">12</span>
+<span class="text-xs font-mono font-bold text-rose-600 bg-rose-100 px-1.5 py-0.5 rounded">≥85% Capacity</span>
+</div>
+</div>
+<div class="h-9 w-9 rounded-xl bg-rose-100 text-rose-600 flex items-center justify-center">
+<span class="material-symbols-outlined text-[18px]">warning</span>
+</div>
+</div>
+<div class="w-full bg-rose-100 h-1.5 rounded-full overflow-hidden">
+<div class="bg-rose-500 h-full rounded-full" style="width: 75%"></div>
+</div>
+<div class="flex items-center justify-between text-xs pt-1 border-t border-rose-100">
+<span class="text-rose-700 font-mono text-[11px] font-bold">7 Dispatched • 5 Queued</span>
+<span class="text-rose-600 font-mono text-[10px]">Immediate Collection</span>
+</div>
+</div>
+<!-- 3) Active Collection Vehicles -->
+<div class="bg-white p-4 rounded-2xl border border-slate-200/90 shadow-card flex flex-col justify-between gap-2.5 hover:border-slate-300 transition-all">
+<div class="flex items-start justify-between">
+<div class="flex flex-col">
+<span class="text-[11px] font-mono uppercase tracking-wider text-slate-500 font-medium">Active Vehicles</span>
+<div class="flex items-baseline gap-1 mt-1">
+<span class="text-3xl font-extrabold text-slate-900 tracking-tight font-sans">16</span>
+<span class="text-xs font-semibold text-slate-400 font-mono">/ 20 Municipal</span>
+</div>
+</div>
+<div class="h-9 w-9 rounded-xl bg-slate-100 border border-slate-200 text-slate-800 flex items-center justify-center">
+<span class="material-symbols-outlined text-[18px]">local_shipping</span>
+</div>
+</div>
+<div class="flex h-1.5 w-full overflow-hidden rounded-full bg-slate-100 gap-0.5">
+<div class="bg-emerald-500 rounded-l-full" style="width: 60%"></div>
+<div class="bg-sky-500" style="width: 20%"></div>
+<div class="bg-slate-300 rounded-r-full" style="width: 20%"></div>
+</div>
+<div class="flex items-center justify-between text-xs pt-1 border-t border-slate-100">
+<span class="font-mono text-[11px] text-slate-600 font-semibold">12 Compactors • 4 EV Tippers</span>
+<span class="text-slate-400 font-mono text-[10px]">4 Depot Standby</span>
+</div>
+</div>
+<!-- 4) Route Optimization Efficiency -->
+<div class="bg-white p-4 rounded-2xl border border-slate-200/90 shadow-card flex flex-col justify-between gap-2.5 hover:border-slate-300 transition-all">
+<div class="flex items-start justify-between">
+<div class="flex flex-col">
+<span class="text-[11px] font-mono uppercase tracking-wider text-slate-500 font-medium">Optimization Efficiency</span>
+<div class="flex items-baseline gap-1 mt-1">
+<span class="text-3xl font-extrabold text-emerald-600 tracking-tight font-sans">88.5%</span>
+<span class="text-xs font-mono font-bold text-emerald-700 bg-emerald-50 border border-emerald-200 px-1 py-0.2 rounded">+16.2%</span>
+</div>
+</div>
+<div class="h-9 w-9 rounded-xl bg-emerald-50 border border-emerald-200 text-emerald-600 flex items-center justify-center">
+<span class="material-symbols-outlined text-[18px]">insights</span>
+</div>
+</div>
+<div class="w-full bg-slate-100 h-1.5 rounded-full overflow-hidden">
+<div class="h-full bg-gradient-to-r from-emerald-500 to-teal-400 rounded-full" style="width: 88.5%"></div>
+</div>
+<div class="flex items-center justify-between text-xs pt-1 border-t border-slate-100">
+<span class="text-emerald-700 font-mono text-[11px] font-semibold">vs. Traditional Fixed Routes</span>
+<span class="text-slate-400 font-mono text-[10px]">GA Converged</span>
+</div>
+</div>
+<!-- 5) Distance Saved -->
+<div class="bg-white p-4 rounded-2xl border border-emerald-200/90 shadow-card flex flex-col justify-between gap-2.5 hover:border-emerald-300 transition-all bg-emerald-50/20">
+<div class="flex items-start justify-between">
+<div class="flex flex-col">
+<span class="text-[11px] font-mono uppercase tracking-wider text-emerald-800 font-medium">Distance Saved</span>
+<div class="flex items-baseline gap-1 mt-1">
+<span class="text-3xl font-extrabold text-slate-900 tracking-tight font-sans">42.6</span>
+<span class="text-xs font-semibold text-emerald-700 font-mono">km Saved</span>
+</div>
+</div>
+<div class="h-9 w-9 rounded-xl bg-emerald-100 text-emerald-700 flex items-center justify-center">
+<span class="material-symbols-outlined text-[18px]">eco</span>
+</div>
+</div>
+<div class="w-full bg-emerald-100 h-1.5 rounded-full overflow-hidden">
+<div class="bg-emerald-600 h-full rounded-full" style="width: 78%"></div>
+</div>
+<div class="flex items-center justify-between text-xs pt-1 border-t border-emerald-100">
+<span class="text-emerald-700 font-mono text-[11px] font-bold">145 kg CO₂ Cut</span>
+<span class="text-slate-500 font-mono text-[10px]">~22.4% Fuel Reduced</span>
+</div>
+</div>
+</section>
+<!-- ===================================================================== -->
+<!-- SECTION 3: BEFORE VS AFTER ROUTE OPTIMIZATION BENCHMARK (FOR VIVA)   -->
+<!-- ===================================================================== -->
+<section class="p-5 rounded-2xl bg-white border border-slate-200/90 shadow-card flex flex-col gap-4">
+<div class="flex items-center justify-between pb-3 border-b border-slate-100 flex-wrap gap-2">
+<div class="flex flex-col">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-[20px] text-emerald-600">analytics</span>
+<h2 class="text-sm font-bold tracking-tight text-slate-900">Route Optimization Benchmark: Traditional vs EcoRoute AI</h2>
+<span class="px-2 py-0.5 rounded-full text-[10px] font-mono font-bold bg-emerald-100 text-emerald-800 border border-emerald-200">KEY EVALUATION METRIC</span>
+</div>
+<span class="text-[11px] font-mono text-slate-500">Comparison of Fixed Municipal Baseline vs Dynamic Smart Routing across Gwalior Sectors</span>
+</div>
+<div class="flex items-center gap-2 font-mono text-xs">
+<span class="text-slate-500">Evaluation Scope:</span>
+<span class="font-bold text-slate-900 bg-slate-100 px-2.5 py-1 rounded">64 High-Priority Bins in Morning Shift</span>
+</div>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+<!-- Metric 1: Original Route -->
+<div class="p-3.5 rounded-xl bg-slate-50 border border-slate-200 flex flex-col justify-between">
+<span class="text-[11px] font-mono text-slate-500 uppercase font-medium">Original Traditional Route</span>
+<div class="mt-1">
+<span class="text-2xl font-bold font-mono text-slate-800">190.4 km</span>
+<span class="block text-[11px] font-mono text-slate-500">Est. Duration: 11h 45m</span>
+</div>
+<div class="mt-2 pt-2 border-t border-slate-200 text-[10px] font-mono text-slate-500">
+            Fixed static sequence, no sensor integration
+          </div>
+</div>
+<!-- Metric 2: EcoRoute AI-Optimized -->
+<div class="p-3.5 rounded-xl bg-emerald-50/70 border border-emerald-200 flex flex-col justify-between">
+<span class="text-[11px] font-mono text-emerald-800 uppercase font-semibold">EcoRoute AI-Optimized Route</span>
+<div class="mt-1">
+<span class="text-2xl font-bold font-mono text-emerald-700">147.8 km</span>
+<span class="block text-[11px] font-mono text-emerald-600 font-semibold">Est. Duration: 8h 50m</span>
+</div>
+<div class="mt-2 pt-2 border-t border-emerald-200 text-[10px] font-mono text-emerald-800">
+            Dynamic clustering &amp; priority fill pickup
+          </div>
+</div>
+<!-- Metric 3: Net Distance Saved -->
+<div class="p-3.5 rounded-xl bg-slate-900 text-white border border-slate-800 flex flex-col justify-between">
+<span class="text-[11px] font-mono text-emerald-400 uppercase font-semibold">Net Distance Saved</span>
+<div class="mt-1">
+<span class="text-2xl font-bold font-mono text-white">-42.6 km</span>
+<span class="block text-[11px] font-mono text-emerald-400 font-bold">-22.4% Path Reduction</span>
+</div>
+<div class="mt-2 pt-2 border-t border-slate-800 text-[10px] font-mono text-slate-400">
+            Eliminates empty-bin visits &amp; deadhead loops
+          </div>
+</div>
+<!-- Metric 4: Estimated Time Saved -->
+<div class="p-3.5 rounded-xl bg-slate-900 text-white border border-slate-800 flex flex-col justify-between">
+<span class="text-[11px] font-mono text-brand-300 uppercase font-semibold">Estimated Time Saved</span>
+<div class="mt-1">
+<span class="text-2xl font-bold font-mono text-white">2h 55m</span>
+<span class="block text-[11px] font-mono text-brand-400 font-bold">Faster Daily Collection</span>
+</div>
+<div class="mt-2 pt-2 border-t border-slate-800 text-[10px] font-mono text-slate-400">
+            145 kg CO₂ reduction calculated from diesel baseline
+          </div>
+</div>
+</div>
+<!-- Visual Progress Comparison Bar -->
+<div class="p-3.5 rounded-xl bg-slate-100/80 border border-slate-200 flex flex-col gap-2">
+<div class="flex justify-between items-center text-xs font-mono">
+<span class="text-slate-700 font-semibold">Distance Comparison: Traditional (190.4 km) vs EcoRoute AI (147.8 km)</span>
+<span class="text-emerald-700 font-bold">Δ = 42.6 km saved (22.4% reduction)</span>
+</div>
+<div class="relative w-full h-4 bg-slate-200 rounded-full overflow-hidden flex">
+<div class="bg-slate-400 h-full flex items-center justify-end pr-2 text-[9px] font-mono text-white font-bold" style="width: 100%">
+            Traditional Fixed Route: 190.4 km
+          </div>
+</div>
+<div class="relative w-full h-4 bg-slate-200 rounded-full overflow-hidden flex">
+<div class="bg-gradient-to-r from-emerald-500 to-teal-400 h-full flex items-center justify-end pr-2 text-[9px] font-mono text-slate-950 font-bold" style="width: 77.6%">
+            EcoRoute AI Optimized: 147.8 km
+          </div>
+</div>
+</div>
+</section>
+<!-- ===================================================================== -->
+<!-- SECTION 4: REALISTIC GWALIOR GIS LIVE MAP & PRIORITY QUEUE           -->
+<!-- ===================================================================== -->
+<section class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+<!-- LEFT 8 COLS: COMMANDING LIVE TELEMETRY GIS VECTOR MAP STAGE -->
+<div class="lg:col-span-8 bg-white rounded-2xl border border-slate-200/90 shadow-card p-4 sm:p-5 flex flex-col gap-4">
+<!-- Top Map HUD Toolbar -->
+<div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+<div class="flex items-center gap-2.5">
+<div class="h-8 w-8 rounded-lg bg-slate-900 text-white flex items-center justify-center shadow-sm">
+<span class="material-symbols-outlined text-[18px]">satellite_alt</span>
+</div>
+<div class="flex flex-col">
+<div class="flex items-center gap-2">
+<h2 class="text-sm font-bold tracking-tight text-slate-900">Gwalior Smart City GIS Live Fleet &amp; Waste Bin Map</h2>
+<span class="px-2 py-0.5 rounded-full text-[10px] font-mono font-bold bg-slate-100 text-slate-600 border border-slate-200">GPS Sync: Active</span>
+</div>
+<span class="text-[11px] text-slate-500 font-mono">Live node telemetry • Lashkar, Maharaj Bada, City Centre, Thatipur, Morar</span>
+</div>
+</div>
+<div class="flex items-center gap-1.5 flex-wrap">
+<button class="px-2.5 py-1 rounded-lg text-xs font-mono font-semibold bg-slate-900 text-white shadow-sm flex items-center gap-1.5">
+<span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
+<span>All Bins (320)</span>
+</button>
+<button class="px-2.5 py-1 rounded-lg text-xs font-mono font-semibold bg-rose-50 text-rose-700 border border-rose-200 hover:bg-rose-100 transition-colors flex items-center gap-1">
+<span class="w-1.5 h-1.5 rounded-full bg-rose-500 animate-pulse"></span>
+<span>Critical Only (12)</span>
+</button>
+<button class="px-2.5 py-1 rounded-lg text-xs font-mono font-semibold bg-slate-100 text-slate-700 hover:bg-slate-200 transition-colors flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">local_shipping</span>
+<span>Active Fleets (16)</span>
+</button>
+<div class="h-4 w-px bg-slate-200 mx-1"></div>
+<label class="flex items-center gap-1.5 cursor-pointer text-xs font-mono text-emerald-700 font-semibold pl-1">
+<input checked="" class="w-3.5 h-3.5 rounded text-emerald-600 focus:ring-emerald-500 border-slate-300" type="checkbox"/>
+<span>Show Optimized Paths</span>
+</label>
+</div>
+</div>
+<!-- THE MAP CANVAS CONTAINER: min-h-[580px] -->
+<div class="relative w-full h-[580px] rounded-xl overflow-hidden bg-slate-925 select-none border border-slate-800 shadow-inner map-grid-pattern">
+<!-- Scaled Vector SVG Network for Gwalior Real Urban Layout -->
+<svg class="absolute inset-0 w-full h-full" preserveaspectratio="none" viewbox="0 0 1000 600" xmlns="http://www.w3.org/2000/svg">
+<defs>
+<!-- Swarna Rekha River / Canal Gradient -->
+<lineargradient id="gwaliorCanal" x1="0%" x2="100%" y1="0%" y2="100%">
+<stop offset="0%" stop-color="#0f2b48" stop-opacity="0.8"></stop>
+<stop offset="100%" stop-color="#091b2c" stop-opacity="0.9"></stop>
+</lineargradient>
+<!-- Gwalior Fort Plateau & Green Slopes -->
+<lineargradient id="gwaliorFortHill" x1="0%" x2="100%" y1="0%" y2="100%">
+<stop offset="0%" stop-color="#1e293b" stop-opacity="0.9"></stop>
+<stop offset="100%" stop-color="#0f172a" stop-opacity="0.95"></stop>
+</lineargradient>
+<lineargradient id="gwaliorParks" x1="0%" x2="100%" y1="0%" y2="100%">
+<stop offset="0%" stop-color="#064e3b" stop-opacity="0.4"></stop>
+<stop offset="100%" stop-color="#022c22" stop-opacity="0.25"></stop>
+</lineargradient>
+<!-- Glow Filters -->
+<filter height="140%" id="emeraldGlow" width="140%" x="-20%" y="-20%">
+<fedropshadow dx="0" dy="0" flood-color="#10b981" flood-opacity="0.8" stddeviation="3"></fedropshadow>
+</filter>
+<filter height="140%" id="blueGlow" width="140%" x="-20%" y="-20%">
+<fedropshadow dx="0" dy="0" flood-color="#38bdf8" flood-opacity="0.7" stddeviation="2.5"></fedropshadow>
+</filter>
+</defs>
+<!-- Gwalior Fort Rocky Plateau Massif (Top-Left elevated landmark) -->
+<path d="M 120,50 L 260,35 L 290,130 L 240,240 L 160,260 L 90,160 Z" fill="url(#gwaliorFortHill)" stroke="#475569" stroke-width="2"></path>
+<!-- Swarna Rekha Canal flowing through city -->
+<path d="M 80,480 C 180,390 230,320 270,260 C 330,170 360,110 410,20 L 440,20 C 390,120 360,190 300,280 C 260,340 210,410 110,500 Z" fill="url(#gwaliorCanal)" stroke="#1e3a5f" stroke-width="1.2"></path>
+<!-- Major City Green Parks (Phool Bagh Gardens, Italian Garden, Morar Park) -->
+<path d="M 330,220 Q 420,200 440,280 T 360,330 T 310,270 Z" fill="url(#gwaliorParks)" stroke="#065f46" stroke-width="1"></path>
+<path d="M 720,360 Q 820,330 870,410 T 800,490 T 700,440 Z" fill="url(#gwaliorParks)" stroke="#065f46" stroke-width="1"></path>
+<!-- Minor Grid Street Matrix of Gwalior Town -->
+<g opacity="0.45" stroke="#1e293b" stroke-linecap="round" stroke-width="1">
+<line x1="40" x2="40" y1="40" y2="570"></line>
+<line x1="120" x2="120" y1="40" y2="570"></line>
+<line x1="200" x2="200" y1="40" y2="570"></line>
+<line x1="280" x2="280" y1="40" y2="570"></line>
+<line x1="360" x2="360" y1="40" y2="570"></line>
+<line x1="440" x2="440" y1="40" y2="570"></line>
+<line x1="520" x2="520" y1="40" y2="570"></line>
+<line x1="600" x2="600" y1="40" y2="570"></line>
+<line x1="680" x2="680" y1="40" y2="570"></line>
+<line x1="760" x2="760" y1="40" y2="570"></line>
+<line x1="840" x2="840" y1="40" y2="570"></line>
+<line x1="920" x2="920" y1="40" y2="570"></line>
+<line x1="20" x2="980" y1="60" y2="60"></line>
+<line x1="20" x2="980" y1="120" y2="120"></line>
+<line x1="20" x2="980" y1="180" y2="180"></line>
+<line x1="20" x2="980" y1="240" y2="240"></line>
+<line x1="20" x2="980" y1="300" y2="300"></line>
+<line x1="20" x2="980" y1="360" y2="360"></line>
+<line x1="20" x2="980" y1="420" y2="420"></line>
+<line x1="20" x2="980" y1="480" y2="480"></line>
+<line x1="20" x2="980" y1="540" y2="540"></line>
+</g>
+<!-- Major Arterial Gwalior Roads -->
+<!-- 1) Maharaj Bada - Lashkar - Phool Bagh - Station Arterial -->
+<g stroke="#334155" stroke-linecap="round" stroke-linejoin="round" stroke-width="5">
+<!-- Maharaj Bada to Phool Bagh & Railway Station -->
+<path d="M 120,440 L 230,350 L 350,260 L 490,210 L 680,180 L 890,160"></path>
+<!-- City Centre - Thatipur Main Axis -->
+<path d="M 350,260 L 480,330 L 620,380 L 760,430 L 920,470"></path>
+<!-- Fort Road & Outer Ring Link -->
+<path d="M 230,350 L 240,240 L 290,130 L 490,210"></path>
+<!-- Morar Cantonment Gateway -->
+<path d="M 620,380 L 710,290 L 840,260 L 950,250"></path>
+</g>
+<!-- Secondary Arterials with Clean Lane Stroke -->
+<g stroke="#475569" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5">
+<path d="M 120,440 L 230,350 L 350,260 L 490,210 L 680,180 L 890,160"></path>
+<path d="M 350,260 L 480,330 L 620,380 L 760,430 L 920,470"></path>
+<path d="M 230,350 L 240,240 L 290,130 L 490,210"></path>
+<path d="M 620,380 L 710,290 L 840,260 L 950,250"></path>
+</g>
+<!-- ACTIVE DYNAMIC AI ROUTES -->
+<!-- Circuit 01: Lashkar & Maharaj Bada High-Priority Circuit (Glowing Green) -->
+<path d="M 100,460 L 125,435 L 180,390 L 230,350 L 290,310 L 350,260 L 410,240 L 480,330" fill="none" filter="url(#emeraldGlow)" stroke="#10b981" stroke-dasharray="8 5" stroke-linecap="round" stroke-width="4"></path>
+<!-- Circuit 02: City Centre & Thatipur Circuit (Sky Blue) -->
+<path d="M 480,330 L 550,360 L 620,380 L 710,395 L 770,430 L 830,410" fill="none" filter="url(#blueGlow)" stroke="#38bdf8" stroke-dasharray="6 4" stroke-linecap="round" stroke-width="3"></path>
+<!-- Circuit 03: Morar Link (Amber Dashed) -->
+<path d="M 620,380 L 710,290 L 780,270 L 840,260 L 910,280" fill="none" opacity="0.85" stroke="#f59e0b" stroke-dasharray="5 4" stroke-linecap="round" stroke-width="2.5"></path>
+</svg>
+<!-- Geographic Region Labels for Gwalior Landmarks -->
+<div class="absolute top-10 left-32 px-2.5 py-1 rounded bg-slate-900/90 backdrop-blur-sm border border-slate-700 text-[10px] font-mono font-bold tracking-wider text-slate-300 shadow-md">
+            GWALIOR FORT FOOTHILLS
+          </div>
+<div class="absolute bottom-28 left-20 px-2.5 py-1 rounded bg-slate-900/90 backdrop-blur-sm border border-brand-500/50 text-[10px] font-mono font-bold tracking-wider text-brand-300 shadow-md">
+            MAHARAJ BADA (COMMERCIAL CORE)
+          </div>
+<div class="absolute top-48 left-[290px] px-2.5 py-1 rounded bg-slate-900/90 backdrop-blur-sm border border-slate-700 text-[10px] font-mono font-bold tracking-wider text-slate-300 shadow-md">
+            PHOOL BAGH RECREATION ZONE
+          </div>
+<div class="absolute top-[280px] left-[490px] px-2.5 py-1 rounded bg-slate-900/90 backdrop-blur-sm border border-slate-700 text-[10px] font-mono font-bold tracking-wider text-slate-300 shadow-md">
+            CITY CENTRE (GOVT &amp; HIGH COURT)
+          </div>
+<div class="absolute bottom-24 right-[280px] px-2.5 py-1 rounded bg-slate-900/90 backdrop-blur-sm border border-slate-700 text-[10px] font-mono font-bold tracking-wider text-slate-300 shadow-md">
+            THATIPUR RESIDENTIAL SECTOR
+          </div>
+<div class="absolute top-28 right-[130px] px-2.5 py-1 rounded bg-slate-900/90 backdrop-blur-sm border border-slate-700 text-[10px] font-mono font-bold tracking-wider text-slate-300 shadow-md">
+            MORAR CANTONMENT GATEWAY
+          </div>
+<!-- =============================================================== -->
+<!-- GIS WASTE BINS PINS (🟢 Normal, 🟡 Medium, 🔴 Critical)          -->
+<!-- =============================================================== -->
+<!-- Normal Pin 1: Phool Bagh West -->
+<div class="absolute top-52 left-[310px] -translate-x-1/2 -translate-y-1/2 group cursor-pointer">
+<div class="h-3.5 w-3.5 rounded-full bg-emerald-500 ring-4 ring-emerald-500/25 shadow-glow-emerald"></div>
+<div class="hidden group-hover:flex absolute bottom-5 left-1/2 -translate-x-1/2 whitespace-nowrap bg-slate-950 text-white border border-slate-700 rounded-lg px-2 py-1 text-[10px] font-mono shadow-xl z-30">
+              BIN-GWL-214 • Phool Bagh • 34% (Normal)
+            </div>
+</div>
+<!-- Normal Pin 2: City Centre North -->
+<div class="absolute top-[260px] left-[540px] -translate-x-1/2 -translate-y-1/2 group cursor-pointer">
+<div class="h-3.5 w-3.5 rounded-full bg-emerald-500 ring-4 ring-emerald-500/25 shadow-glow-emerald"></div>
+<div class="hidden group-hover:flex absolute bottom-5 left-1/2 -translate-x-1/2 whitespace-nowrap bg-slate-950 text-white border border-slate-700 rounded-lg px-2 py-1 text-[10px] font-mono shadow-xl z-30">
+              BIN-GWL-305 • Collectorate Road • 42% (Normal)
+            </div>
+</div>
+<!-- Normal Pin 3: Thatipur South -->
+<div class="absolute bottom-28 right-[240px] -translate-x-1/2 -translate-y-1/2 group cursor-pointer">
+<div class="h-3.5 w-3.5 rounded-full bg-emerald-500 ring-4 ring-emerald-500/25 shadow-glow-emerald"></div>
+<div class="hidden group-hover:flex absolute bottom-5 left-1/2 -translate-x-1/2 whitespace-nowrap bg-slate-950 text-white border border-slate-700 rounded-lg px-2 py-1 text-[10px] font-mono shadow-xl z-30">
+              BIN-GWL-412 • Thatipur Pocket B • 28% (Normal)
+            </div>
+</div>
+<!-- Medium Pin 1 (🟡 50-84%): Lashkar Sarafa Bazaar -->
+<div class="absolute bottom-44 left-[190px] -translate-x-1/2 -translate-y-1/2 group cursor-pointer">
+<div class="h-4 w-4 rounded-full bg-amber-400 ring-4 ring-amber-400/30 shadow-md flex items-center justify-center">
+<span class="h-1.5 w-1.5 rounded-full bg-slate-950"></span>
+</div>
+<div class="hidden group-hover:flex absolute bottom-6 left-1/2 -translate-x-1/2 whitespace-nowrap bg-slate-950 text-amber-300 border border-amber-500/40 rounded-lg px-2 py-1 text-[10px] font-mono shadow-xl z-30">
+              BIN-GWL-140 • Sarafa Bazaar • 76% (Medium)
+            </div>
+</div>
+<!-- Medium Pin 2 (🟡): Thatipur Main Chowk -->
+<div class="absolute bottom-36 right-[310px] -translate-x-1/2 -translate-y-1/2 group cursor-pointer">
+<div class="h-4 w-4 rounded-full bg-amber-400 ring-4 ring-amber-400/30 shadow-md flex items-center justify-center">
+<span class="h-1.5 w-1.5 rounded-full bg-slate-950"></span>
+</div>
+<div class="hidden group-hover:flex absolute bottom-6 left-1/2 -translate-x-1/2 whitespace-nowrap bg-slate-950 text-amber-300 border border-amber-500/40 rounded-lg px-2 py-1 text-[10px] font-mono shadow-xl z-30">
+              BIN-GWL-402 • Thatipur Chowk • 79% (Medium)
+            </div>
+</div>
+<!-- Critical Pin 1 (🔴 ≥85%): Maharaj Bada Central (With Selection Ripple) -->
+<div class="absolute bottom-32 left-[125px] -translate-x-1/2 -translate-y-1/2 group cursor-pointer z-20">
+<div class="relative flex items-center justify-center">
+<span class="animate-ping absolute inline-flex h-7 w-7 rounded-full bg-rose-500 opacity-75"></span>
+<div class="relative h-5 w-5 rounded-full bg-rose-600 flex items-center justify-center text-white text-[10px] font-bold shadow-glow-rose ring-2 ring-white">
+                !
+              </div>
+</div>
+</div>
+<!-- Critical Pin 2 (🔴): Morar Subzi Mandi -->
+<div class="absolute top-36 right-[170px] -translate-x-1/2 -translate-y-1/2 group cursor-pointer z-20">
+<div class="relative flex items-center justify-center">
+<span class="animate-ping absolute inline-flex h-6 w-6 rounded-full bg-rose-500 opacity-75"></span>
+<div class="relative h-4 w-4 rounded-full bg-rose-500 flex items-center justify-center text-white text-[9px] font-bold shadow-glow-rose">
+                !
+              </div>
+</div>
+<div class="hidden group-hover:flex absolute bottom-6 left-1/2 -translate-x-1/2 whitespace-nowrap bg-slate-950 text-rose-300 border border-rose-500/50 rounded-lg px-2 py-1 text-[10px] font-mono shadow-xl z-30">
+              BIN-GWL-518 • Morar Subzi Mandi • 92% (Critical)
+            </div>
+</div>
+<!-- VEHICLE MARKERS -->
+<!-- Vehicle 1: TRK-01 (Compactor en-route to Maharaj Bada) -->
+<div class="absolute bottom-40 left-[210px] -translate-x-1/2 -translate-y-1/2 z-25 cursor-pointer group">
+<div class="flex items-center gap-1.5 bg-brand-500 text-slate-950 px-2.5 py-1 rounded-lg shadow-glow-emerald border border-brand-400 font-bold">
+<span class="material-symbols-outlined text-[15px] animate-pulse">local_shipping</span>
+<span class="font-mono text-[11px] tracking-tight">TRK-01 (ETA 8m)</span>
+</div>
+</div>
+<!-- Vehicle 2: TRK-04 (Electric Tipper in Thatipur Sector) -->
+<div class="absolute bottom-28 right-[360px] -translate-x-1/2 -translate-y-1/2 z-25 cursor-pointer group">
+<div class="flex items-center gap-1.5 bg-slate-900 text-brand-400 px-2.5 py-1 rounded-lg shadow-xl border border-brand-500/40">
+<span class="material-symbols-outlined text-[15px] text-brand-400">electric_bolt</span>
+<span class="font-mono text-[10px] font-semibold text-white">TRK-04 EV (ETA 14m)</span>
+</div>
+</div>
+<!-- =============================================================== -->
+<!-- SELECTED BIN INSPECTION CARD OVER MAHARAJ BADA                  -->
+<!-- =============================================================== -->
+<div class="absolute top-8 left-6 z-30 w-80 bg-slate-950/95 backdrop-blur-xl rounded-2xl border border-rose-500/40 shadow-2xl p-4 text-white">
+<div class="flex items-start justify-between">
+<div class="flex items-center gap-2">
+<span class="relative flex h-2.5 w-2.5">
+<span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-rose-400 opacity-75"></span>
+<span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-rose-500"></span>
+</span>
+<div class="flex flex-col">
+<div class="flex items-center gap-2">
+<span class="font-mono font-bold text-sm tracking-tight text-white">BIN-GWL-108</span>
+<span class="px-1.5 py-0.2 rounded text-[9px] font-mono font-extrabold bg-rose-500/20 text-rose-300 border border-rose-500/40">94% FULL</span>
+</div>
+<span class="text-[11px] text-slate-300 font-sans">Maharaj Bada Central • Lashkar Sector</span>
+</div>
+</div>
+<button class="text-slate-400 hover:text-white p-1 rounded transition-colors" title="Close Preview">
+<span class="material-symbols-outlined text-[16px]">close</span>
+</button>
+</div>
+<!-- Ultrasonic Fill Level & Sensor Details -->
+<div class="my-3 space-y-2 bg-slate-900/80 p-2.5 rounded-xl border border-slate-800">
+<div class="flex justify-between items-center text-xs">
+<span class="text-slate-400 font-mono text-[10px]">Ultrasonic Fill Sensors</span>
+<span class="text-rose-400 font-mono font-bold text-[10px]">Overflow ETA: 25 mins</span>
+</div>
+<div class="w-full bg-slate-800 h-2 rounded-full overflow-hidden">
+<div class="bg-gradient-to-r from-amber-500 to-rose-500 h-full rounded-full" style="width: 94%"></div>
+</div>
+<div class="grid grid-cols-2 gap-2 text-[10px] font-mono text-slate-300 pt-1">
+<div>Sensor Status: <strong class="text-emerald-400">Online</strong></div>
+<div>Fill Velocity: <strong class="text-rose-400">+18%/hr</strong></div>
+<div>Capacity: <strong class="text-white">1,100 L</strong></div>
+<div>Waste Stream: <strong class="text-white">Commercial Mix</strong></div>
+</div>
+</div>
+<!-- Assigned Collection Vehicle Strip -->
+<div class="flex items-center justify-between bg-emerald-950/40 border border-emerald-500/30 px-3 py-2 rounded-xl mb-3">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-brand-400 text-[18px]">local_shipping</span>
+<div class="flex flex-col">
+<span class="text-[11px] font-semibold text-white leading-tight">Assigned: Compactor TRK-01</span>
+<span class="text-[9px] font-mono text-brand-300 leading-tight">Driver: Rajesh Yadav</span>
+</div>
+</div>
+<div class="text-right">
+<span class="text-[12px] font-mono font-bold text-brand-400">ETA 8 mins</span>
+<span class="block text-[9px] font-mono text-slate-400">0.7 km away</span>
+</div>
+</div>
+<button class="w-full py-2 px-3 rounded-xl bg-brand-500 hover:bg-brand-400 text-slate-950 font-bold text-xs font-mono tracking-tight transition-all shadow-glow-emerald flex items-center justify-center gap-2">
+<span class="material-symbols-outlined text-[16px]">navigation</span>
+<span>Confirm Priority Pickup</span>
+</button>
+</div>
+<!-- Clean Map Controls (Top Right) -->
+<div class="absolute top-4 right-4 flex flex-col gap-1.5 z-20">
+<div class="flex flex-col bg-slate-900/90 backdrop-blur-md border border-slate-700 rounded-xl overflow-hidden shadow-xl">
+<button class="h-8 w-8 flex items-center justify-center text-slate-300 hover:text-white hover:bg-slate-800 transition-colors" title="Zoom In">
+<span class="material-symbols-outlined text-[18px]">add</span>
+</button>
+<div class="h-px bg-slate-800"></div>
+<button class="h-8 w-8 flex items-center justify-center text-slate-300 hover:text-white hover:bg-slate-800 transition-colors" title="Zoom Out">
+<span class="material-symbols-outlined text-[18px]">remove</span>
+</button>
+</div>
+<div class="flex flex-col bg-slate-900/90 backdrop-blur-md border border-slate-700 rounded-xl overflow-hidden shadow-xl">
+<button class="h-8 w-8 flex items-center justify-center text-brand-400 hover:bg-slate-800 transition-colors" title="Center Maharaj Bada">
+<span class="material-symbols-outlined text-[18px]">my_location</span>
+</button>
+<div class="h-px bg-slate-800"></div>
+<button class="h-8 w-8 flex items-center justify-center text-slate-300 hover:text-white hover:bg-slate-800 transition-colors" title="Layer Switch">
+<span class="material-symbols-outlined text-[18px]">layers</span>
+</button>
+</div>
+</div>
+<!-- Clean Map Legend (Bottom Strip) -->
+<div class="absolute bottom-3 left-3 right-3 bg-slate-950/90 backdrop-blur-md border border-slate-800 px-4 py-2.5 rounded-xl flex items-center justify-between text-xs font-mono text-slate-300 flex-wrap gap-2 z-20">
+<div class="flex items-center gap-4 flex-wrap">
+<div class="flex items-center gap-1.5">
+<span class="w-2.5 h-2.5 rounded-full bg-emerald-500 shadow-glow-emerald"></span>
+<span class="text-[11px] text-slate-300">Normal (&lt;50%)</span>
+</div>
+<div class="flex items-center gap-1.5">
+<span class="w-2.5 h-2.5 rounded-full bg-amber-400"></span>
+<span class="text-[11px] text-slate-300">Medium (50–84%)</span>
+</div>
+<div class="flex items-center gap-1.5">
+<span class="w-2.5 h-2.5 rounded-full bg-rose-500 shadow-glow-rose"></span>
+<span class="text-[11px] text-rose-300 font-bold">Critical / Overflow (≥85%)</span>
+</div>
+<div class="flex items-center gap-1.5">
+<span class="h-2 w-4 rounded-sm bg-brand-500"></span>
+<span class="text-[11px] text-slate-300">Optimized Dynamic Route</span>
+</div>
+</div>
+<div class="flex items-center gap-2 text-slate-400 text-[10px]">
+<span class="w-2 h-2 rounded-full bg-emerald-400"></span>
+<span>Gwalior Smart City Live Sensor Mesh</span>
+</div>
+</div>
+</div>
+</div>
+<!-- RIGHT 4 COLS: PRIORITY WASTE BINS (IMMEDIATE ATTENTION) -->
+<div class="lg:col-span-4 bg-white rounded-2xl border border-slate-200/90 shadow-card p-5 flex flex-col justify-between h-[660px]">
+<div class="flex flex-col gap-3 min-h-0">
+<div class="flex items-center justify-between pb-3 border-b border-slate-100">
+<div class="flex flex-col">
+<div class="flex items-center gap-2">
+<h2 class="text-sm font-bold tracking-tight text-slate-900">Priority Waste Bins</h2>
+<span class="px-2 py-0.5 rounded-full text-[10px] font-mono font-extrabold bg-rose-100 text-rose-700 border border-rose-200">12 IMMEDIATE</span>
+</div>
+<span class="text-[11px] font-mono text-slate-500">Requires prompt collection based on fill sensors</span>
+</div>
+<button class="p-1 rounded text-slate-400 hover:text-slate-700 hover:bg-slate-100 transition-colors" title="Sort Priority">
+<span class="material-symbols-outlined text-[18px]">swap_vert</span>
+</button>
+</div>
+<!-- Clean Cards List -->
+<div class="flex flex-col gap-2.5 overflow-y-auto pr-1">
+<!-- Card 1: Maharaj Bada -->
+<div class="p-3 rounded-xl bg-slate-900 text-white border border-rose-500/40 shadow-sm flex flex-col gap-2">
+<div class="flex items-start justify-between">
+<div class="flex flex-col">
+<div class="flex items-center gap-2">
+<span class="font-mono font-bold text-xs text-white">BIN-GWL-108</span>
+<span class="px-1.5 py-0.2 rounded text-[9px] font-mono font-bold bg-rose-500/30 text-rose-300 border border-rose-500/40">94% FULL</span>
+</div>
+<span class="text-[11px] text-slate-300">Maharaj Bada Main Market • Lashkar</span>
+</div>
+<span class="text-[10px] font-mono font-bold text-rose-400 bg-rose-950/60 px-2 py-0.5 rounded border border-rose-800">Critical - Overflow Imminent</span>
+</div>
+<div class="w-full bg-slate-800 h-1.5 rounded-full overflow-hidden">
+<div class="bg-rose-500 h-full rounded-full" style="width: 94%"></div>
+</div>
+<div class="flex items-center justify-between text-[10px] font-mono text-slate-400">
+<span class="text-brand-400 font-semibold flex items-center gap-1">
+<span class="material-symbols-outlined text-[12px]">local_shipping</span> Assigned to TRK-01 • ETA 8 mins
+                </span>
+<span>Overflow in ~25m</span>
+</div>
+</div>
+<!-- Card 2: Morar Subzi Mandi -->
+<div class="p-3 rounded-xl bg-slate-50 hover:bg-slate-100 border border-slate-200 transition-colors flex flex-col gap-2">
+<div class="flex items-start justify-between">
+<div class="flex flex-col">
+<div class="flex items-center gap-2">
+<span class="font-mono font-bold text-xs text-slate-900">BIN-GWL-518</span>
+<span class="px-1.5 py-0.2 rounded text-[9px] font-mono font-bold bg-rose-100 text-rose-700 border border-rose-200">92% CRITICAL</span>
+</div>
+<span class="text-[11px] text-slate-600">Morar Subzi Mandi Main Gate</span>
+</div>
+<span class="text-[10px] font-mono font-bold text-rose-600">Overflow Imminent</span>
+</div>
+<div class="w-full bg-slate-200 h-1.5 rounded-full overflow-hidden">
+<div class="bg-rose-600 h-full rounded-full" style="width: 92%"></div>
+</div>
+<div class="flex items-center justify-between text-[10px] font-mono text-slate-500">
+<span class="text-slate-800 font-semibold flex items-center gap-1">
+<span class="material-symbols-outlined text-[12px]">local_shipping</span> Assigned to TRK-06 • ETA 16 mins
+                </span>
+<span>Vegetable Waste</span>
+</div>
+</div>
+<!-- Card 3: Phool Bagh Gate -->
+<div class="p-3 rounded-xl bg-slate-50 hover:bg-slate-100 border border-slate-200 transition-colors flex flex-col gap-2">
+<div class="flex items-start justify-between">
+<div class="flex flex-col">
+<div class="flex items-center gap-2">
+<span class="font-mono font-bold text-xs text-slate-900">BIN-GWL-219</span>
+<span class="px-1.5 py-0.2 rounded text-[9px] font-mono font-bold bg-amber-100 text-amber-800 border border-amber-200">88% HIGH</span>
+</div>
+<span class="text-[11px] text-slate-600">Phool Bagh Main Gate &amp; Bus Stop</span>
+</div>
+<span class="text-[10px] font-mono text-amber-700">35m buffer</span>
+</div>
+<div class="w-full bg-slate-200 h-1.5 rounded-full overflow-hidden">
+<div class="bg-amber-500 h-full rounded-full" style="width: 88%"></div>
+</div>
+<div class="flex items-center justify-between text-[10px] font-mono text-slate-500">
+<span class="text-brand-600 font-semibold flex items-center gap-1">
+<span class="material-symbols-outlined text-[12px]">local_shipping</span> TRK-01 (Next Stop in Circuit)
+                </span>
+<span>Public Footfall</span>
+</div>
+</div>
+<!-- Card 4: Thatipur Chowk -->
+<div class="p-3 rounded-xl bg-amber-50/70 border border-amber-200/90 transition-colors flex flex-col gap-2">
+<div class="flex items-start justify-between">
+<div class="flex flex-col">
+<div class="flex items-center gap-2">
+<span class="font-mono font-bold text-xs text-amber-900">BIN-GWL-402</span>
+<span class="px-1.5 py-0.2 rounded text-[9px] font-mono font-bold bg-rose-200/80 text-rose-900">89% CRITICAL</span>
+</div>
+<span class="text-[11px] text-slate-700">Thatipur Main Chowk Commercial Complex</span>
+</div>
+<span class="text-[10px] font-mono font-bold text-rose-600 flex items-center gap-0.5">
+<span class="material-symbols-outlined text-[12px]">warning</span> Priority Dispatch
+                </span>
+</div>
+<div class="w-full bg-amber-200/60 h-1.5 rounded-full overflow-hidden">
+<div class="bg-rose-500 h-full rounded-full" style="width: 89%"></div>
+</div>
+<div class="flex items-center justify-between text-[10px] font-mono">
+<span class="text-rose-700 font-semibold">Assigned: TRK-04 EV • ETA 14 mins</span>
+<span class="text-slate-600">Dry &amp; Food</span>
+</div>
+</div>
+<!-- Card 5: Gwalior Railway Station South Exit -->
+<div class="p-3 rounded-xl bg-slate-50 border border-slate-200 transition-colors flex flex-col gap-2">
+<div class="flex items-start justify-between">
+<div class="flex flex-col">
+<div class="flex items-center gap-2">
+<span class="font-mono font-bold text-xs text-slate-900">BIN-GWL-310</span>
+<span class="px-1.5 py-0.2 rounded text-[9px] font-mono font-bold bg-amber-100 text-amber-800 border border-amber-200">85% HIGH</span>
+</div>
+<span class="text-[11px] text-slate-600">Gwalior Junction South Circulating Area</span>
+</div>
+<span class="text-[10px] font-mono font-bold text-amber-700">Spill in 40m</span>
+</div>
+<div class="w-full bg-slate-200 h-1.5 rounded-full overflow-hidden">
+<div class="bg-amber-500 h-full rounded-full" style="width: 85%"></div>
+</div>
+<div class="flex items-center justify-between text-[10px] font-mono text-slate-500">
+<span class="text-slate-700 font-semibold flex items-center gap-1">
+<span class="material-symbols-outlined text-[12px]">autorenew</span> Auto-Sequenced in Circuit 02
+                </span>
+<span>Transit Hub</span>
+</div>
+</div>
+</div>
+</div>
+<div class="pt-3 border-t border-slate-100 flex flex-col gap-2">
+<button class="w-full py-2.5 px-3 rounded-xl bg-slate-900 hover:bg-slate-800 text-white font-mono text-xs font-semibold tracking-tight transition-colors flex items-center justify-center gap-2 shadow-sm">
+<span>View All 12 Urgent Bins in Map</span>
+<span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+</button>
+</div>
+</div>
+</section>
+<!-- ===================================================================== -->
+<!-- SECTION 5: TODAY'S ACTIVE ROUTE MANIFESTS & MATERIAL DIVERSION        -->
+<!-- ===================================================================== -->
+<section class="grid grid-cols-1 xl:grid-cols-2 gap-6">
+<!-- LEFT: Today's Active Route Manifests -->
+<div class="bg-white rounded-2xl border border-slate-200/90 shadow-card p-5 flex flex-col gap-4">
+<div class="flex items-center justify-between pb-2 border-b border-slate-100">
+<div class="flex flex-col">
+<h2 class="text-sm font-bold tracking-tight text-slate-900">Today's Active Route Manifests</h2>
+<span class="text-[11px] font-mono text-slate-500">AI dynamically sequenced compaction circuits across Gwalior</span>
+</div>
+<span class="px-2 py-0.5 rounded-full text-[10px] font-mono font-bold bg-brand-50 text-brand-700 border border-brand-200">
+            3 ACTIVE CIRCUITS
+          </span>
+</div>
+<div class="flex flex-col gap-3">
+<!-- Route 01: Lashkar Circuit -->
+<div class="p-4 rounded-xl bg-slate-50 hover:bg-slate-100/70 border border-slate-200 transition-all flex flex-col gap-3">
+<div class="flex items-start justify-between">
+<div class="flex items-center gap-3">
+<div class="h-9 w-9 rounded-lg bg-emerald-500 text-slate-950 font-mono font-bold text-xs flex items-center justify-center shadow-glow-emerald">
+                  R-01
+                </div>
+<div class="flex flex-col">
+<div class="flex items-center gap-2">
+<span class="font-mono text-xs font-bold text-slate-900">MP-07-GA-1120</span>
+<span class="px-1.5 py-0.2 rounded text-[9px] font-mono font-semibold bg-emerald-100 text-emerald-800">10T Compactor</span>
+</div>
+<span class="text-xs text-slate-600">Driver: Rajesh Yadav • Lashkar &amp; Maharaj Bada Circuit</span>
+</div>
+</div>
+<div class="text-right">
+<span class="font-mono text-xs font-bold text-slate-900">18 / 24 Bins</span>
+<span class="block text-[11px] font-mono text-emerald-600 font-semibold">75% Cleared</span>
+</div>
+</div>
+<!-- Progress bar -->
+<div class="w-full bg-slate-200 h-1.5 rounded-full overflow-hidden">
+<div class="h-full bg-emerald-500 rounded-full" style="width: 75%"></div>
+</div>
+<div class="grid grid-cols-3 gap-2 text-[11px] font-mono text-slate-600">
+<div class="flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px] text-slate-400">route</span>
+<span>16.8 km circuit</span>
+</div>
+<div class="flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px] text-slate-400">schedule</span>
+<span>1h 15m remaining</span>
+</div>
+<div class="flex items-center gap-1 justify-end text-emerald-600 font-bold">
+<span class="material-symbols-outlined text-[14px]">eco</span>
+<span>-28 kg CO₂</span>
+</div>
+</div>
+<div class="pt-2 border-t border-slate-200 flex items-center justify-between text-xs">
+<span class="text-slate-500 text-[11px] font-mono">Next Stop: Maharaj Bada (BIN-GWL-108)</span>
+<div class="flex items-center gap-2">
+<button class="px-2.5 py-1 rounded bg-white hover:bg-slate-200 text-slate-700 text-[11px] font-mono border border-slate-200 font-medium">Track GPS</button>
+<button class="px-2.5 py-1 rounded bg-slate-900 hover:bg-slate-800 text-white text-[11px] font-mono font-medium">In-Cab HUD</button>
+</div>
+</div>
+</div>
+<!-- Route 02: City Centre & Thatipur Circuit -->
+<div class="p-4 rounded-xl bg-slate-50 hover:bg-slate-100/70 border border-slate-200 transition-all flex flex-col gap-3">
+<div class="flex items-start justify-between">
+<div class="flex items-center gap-3">
+<div class="h-9 w-9 rounded-lg bg-sky-500 text-white font-mono font-bold text-xs flex items-center justify-center shadow-sm">
+                  R-02
+                </div>
+<div class="flex flex-col">
+<div class="flex items-center gap-2">
+<span class="font-mono text-xs font-bold text-slate-900">MP-07-EV-3490</span>
+<span class="px-1.5 py-0.2 rounded text-[9px] font-mono font-semibold bg-sky-100 text-sky-800">Electric Tipper 6T</span>
+</div>
+<span class="text-xs text-slate-600">Driver: Manoj Sharma • City Centre &amp; Thatipur Circuit</span>
+</div>
+</div>
+<div class="text-right">
+<span class="font-mono text-xs font-bold text-slate-900">6 / 20 Bins</span>
+<span class="block text-[11px] font-mono text-sky-600 font-semibold">30% Cleared</span>
+</div>
+</div>
+<div class="w-full bg-slate-200 h-1.5 rounded-full overflow-hidden">
+<div class="h-full bg-sky-500 rounded-full" style="width: 30%"></div>
+</div>
+<div class="grid grid-cols-3 gap-2 text-[11px] font-mono text-slate-600">
+<div class="flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px] text-slate-400">route</span>
+<span>14.4 km circuit</span>
+</div>
+<div class="flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px] text-slate-400">schedule</span>
+<span>1h 35m est.</span>
+</div>
+<div class="flex items-center gap-1 justify-end text-slate-500">
+<span class="material-symbols-outlined text-[14px]">battery_charging_full</span>
+<span>84% Battery</span>
+</div>
+</div>
+<div class="pt-2 border-t border-slate-200 flex items-center justify-between text-xs">
+<span class="text-slate-500 text-[11px] font-mono">Next Stop: Thatipur Chowk (BIN-GWL-402)</span>
+<button class="px-2.5 py-1 rounded bg-white hover:bg-slate-200 text-slate-700 text-[11px] font-mono border border-slate-200 font-medium">Re-Calculate</button>
+</div>
+</div>
+</div>
+</div>
+<!-- RIGHT: Simplified Waste Composition Donut Chart -->
+<div class="bg-white rounded-2xl border border-slate-200/90 shadow-card p-5 flex flex-col justify-between gap-4">
+<div class="flex items-start justify-between">
+<div class="flex flex-col">
+<h3 class="text-sm font-bold tracking-tight text-slate-900">Waste Stream Composition &amp; Diversion</h3>
+<span class="text-[11px] font-mono text-slate-500">Daily segregation audit from Gwalior collection streams</span>
+</div>
+<span class="px-2 py-0.5 rounded-full text-[10px] font-mono font-bold bg-emerald-100 text-emerald-800">
+            76.0% RECYCLED / COMPOSTED
+          </span>
+</div>
+<div class="flex items-center gap-6 py-2">
+<!-- Donut SVG -->
+<div class="relative w-32 h-32 flex-shrink-0">
+<svg class="w-full h-full -rotate-90" viewbox="0 0 36 36">
+<circle cx="18" cy="18" fill="none" r="15.915" stroke="#f1f5f9" stroke-width="4.2"></circle>
+<!-- Organic/Food: 48% -->
+<circle cx="18" cy="18" fill="none" r="15.915" stroke="#10b981" stroke-dasharray="48 52" stroke-dashoffset="0" stroke-width="4.5"></circle>
+<!-- Dry Recyclables: 28% -->
+<circle cx="18" cy="18" fill="none" r="15.915" stroke="#0284c7" stroke-dasharray="28 72" stroke-dashoffset="-48" stroke-width="4.5"></circle>
+<!-- Plastics: 16% -->
+<circle cx="18" cy="18" fill="none" r="15.915" stroke="#f59e0b" stroke-dasharray="16 84" stroke-dashoffset="-76" stroke-width="4.5"></circle>
+<!-- Other: 8% -->
+<circle cx="18" cy="18" fill="none" r="15.915" stroke="#94a3b8" stroke-dasharray="8 92" stroke-dashoffset="-92" stroke-width="4.5"></circle>
+</svg>
+<div class="absolute inset-0 flex flex-col items-center justify-center text-center">
+<span class="text-sm font-mono font-extrabold text-slate-900 leading-none">14.8 T</span>
+<span class="text-[10px] font-mono text-slate-400">Total Weight</span>
+</div>
+</div>
+<!-- Clean Legend -->
+<div class="flex flex-col gap-2 flex-1 text-xs font-mono">
+<div class="flex justify-between items-center">
+<span class="flex items-center gap-2 text-slate-600">
+<span class="w-2.5 h-2.5 rounded-full bg-emerald-500"></span> Organic / Food Waste
+              </span>
+<span class="font-bold text-slate-900">48%</span>
+</div>
+<div class="flex justify-between items-center">
+<span class="flex items-center gap-2 text-slate-600">
+<span class="w-2.5 h-2.5 rounded-full bg-sky-600"></span> Dry Recyclables (Paper/Metal)
+              </span>
+<span class="font-bold text-slate-900">28%</span>
+</div>
+<div class="flex justify-between items-center">
+<span class="flex items-center gap-2 text-slate-600">
+<span class="w-2.5 h-2.5 rounded-full bg-amber-500"></span> Plastics &amp; Packaging
+              </span>
+<span class="font-bold text-slate-900">16%</span>
+</div>
+<div class="flex justify-between items-center">
+<span class="flex items-center gap-2 text-slate-600">
+<span class="w-2.5 h-2.5 rounded-full bg-slate-400"></span> Other / Residual Landfill
+              </span>
+<span class="font-bold text-slate-700">8%</span>
+</div>
+</div>
+</div>
+<div class="pt-2 border-t border-slate-100 flex items-center justify-between text-[11px] font-mono text-slate-500">
+<span>Processing Facility: Kedarpur Waste Processing Plant, Gwalior</span>
+<button class="text-brand-600 font-bold hover:underline">Stream Details →</button>
+</div>
+</div>
+</section>
+<!-- ===================================================================== -->
+<!-- SECTION 6: GWALIOR ZONE COLLECTION EFFICIENCY & 7-DAY TREND          -->
+<!-- ===================================================================== -->
+<section class="grid grid-cols-1 md:grid-cols-2 gap-6">
+<!-- SUB-A: Gwalior Zone Collection Efficiency -->
+<div class="bg-white rounded-2xl border border-slate-200/90 shadow-card p-5 flex flex-col justify-between gap-3">
+<div class="flex items-start justify-between">
+<div class="flex flex-col">
+<h3 class="text-sm font-bold tracking-tight text-slate-900">Gwalior Municipal Zone Clearance Rate</h3>
+<span class="text-[11px] font-mono text-slate-500">Collection coverage across primary municipal zones</span>
+</div>
+<span class="px-2 py-0.5 rounded-full text-[10px] font-mono font-bold bg-emerald-100 text-emerald-800">
+            91.5% CITY AVG
+          </span>
+</div>
+<div class="flex flex-col gap-3 my-auto">
+<!-- Zone 1: Lashkar -->
+<div>
+<div class="flex justify-between text-xs font-mono mb-1">
+<span class="text-slate-800 font-medium">Lashkar (Maharaj Bada &amp; Heritage Core)</span>
+<span class="font-bold text-emerald-600">94% Cleared</span>
+</div>
+<div class="w-full bg-slate-100 h-2 rounded-full overflow-hidden">
+<div class="bg-emerald-500 h-full rounded-full" style="width: 94%"></div>
+</div>
+</div>
+<!-- Zone 2: City Centre -->
+<div>
+<div class="flex justify-between text-xs font-mono mb-1">
+<span class="text-slate-800 font-medium">City Centre (Offices, High Court &amp; Rail Terminal)</span>
+<span class="font-bold text-emerald-600">92% Cleared</span>
+</div>
+<div class="w-full bg-slate-100 h-2 rounded-full overflow-hidden">
+<div class="bg-emerald-500 h-full rounded-full" style="width: 92%"></div>
+</div>
+</div>
+<!-- Zone 3: Thatipur -->
+<div>
+<div class="flex justify-between text-xs font-mono mb-1">
+<span class="text-slate-800 font-medium">Thatipur (Residential &amp; Institutional Sector)</span>
+<span class="font-bold text-emerald-600">88% Cleared</span>
+</div>
+<div class="w-full bg-slate-100 h-2 rounded-full overflow-hidden">
+<div class="bg-emerald-500 h-full rounded-full" style="width: 88%"></div>
+</div>
+</div>
+<!-- Zone 4: Morar -->
+<div>
+<div class="flex justify-between text-xs font-mono mb-1">
+<span class="text-slate-800 font-medium">Morar (Suburban &amp; Cantonment Gateway)</span>
+<span class="font-bold text-amber-600">82% Cleared</span>
+</div>
+<div class="w-full bg-slate-100 h-2 rounded-full overflow-hidden">
+<div class="bg-amber-500 h-full rounded-full" style="width: 82%"></div>
+</div>
+</div>
+</div>
+<div class="pt-2 border-t border-slate-100 flex items-center justify-between text-[11px] font-mono text-slate-500">
+<span>Average Pickup Time: 42 mins</span>
+<span class="text-emerald-600 font-bold">268 Bins On Schedule</span>
+</div>
+</div>
+<!-- SUB-B: 7-Day Collection Tonnage Trend -->
+<div class="bg-white rounded-2xl border border-slate-200/90 shadow-card p-5 flex flex-col justify-between gap-3">
+<div class="flex items-start justify-between">
+<div class="flex flex-col">
+<h3 class="text-sm font-bold tracking-tight text-slate-900">7-Day Municipal Collection Tonnage</h3>
+<span class="text-[11px] font-mono text-slate-500">Gross waste lifted across all 4 zones</span>
+</div>
+<div class="text-right">
+<span class="text-lg font-bold text-slate-900 font-mono">98.4 T</span>
+<span class="block text-[10px] font-mono text-emerald-600 font-bold">+7.8% this week</span>
+</div>
+</div>
+<!-- SVG Trend Chart -->
+<div class="w-full h-36 pt-2">
+<svg class="w-full h-full" preserveaspectratio="none" viewbox="0 0 320 120">
+<defs>
+<lineargradient id="chartGradGwl" x1="0%" x2="0%" y1="0%" y2="100%">
+<stop offset="0%" stop-color="#10b981" stop-opacity="0.3"></stop>
+<stop offset="100%" stop-color="#10b981" stop-opacity="0.0"></stop>
+</lineargradient>
+</defs>
+<line stroke="#f1f5f9" stroke-dasharray="2 2" stroke-width="1" x1="0" x2="320" y1="20" y2="20"></line>
+<line stroke="#f1f5f9" stroke-dasharray="2 2" stroke-width="1" x1="0" x2="320" y1="60" y2="60"></line>
+<line stroke="#f1f5f9" stroke-dasharray="2 2" stroke-width="1" x1="0" x2="320" y1="100" y2="100"></line>
+<path d="M 15,85 L 60,75 L 110,60 L 160,65 L 210,35 L 260,22 L 305,42 L 305,115 L 15,115 Z" fill="url(#chartGradGwl)"></path>
+<path d="M 15,85 L 60,75 L 110,60 L 160,65 L 210,35 L 260,22 L 305,42" fill="none" stroke="#059669" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5"></path>
+<circle cx="15" cy="85" fill="#059669" r="3"></circle>
+<circle cx="60" cy="75" fill="#059669" r="3"></circle>
+<circle cx="110" cy="60" fill="#059669" r="3"></circle>
+<circle cx="160" cy="65" fill="#059669" r="3"></circle>
+<circle cx="210" cy="35" fill="#059669" r="3"></circle>
+<circle cx="260" cy="22" fill="#10b981" r="4.5" stroke="#ffffff" stroke-width="1.5"></circle>
+<circle cx="305" cy="42" fill="#059669" r="3.5"></circle>
+</svg>
+</div>
+<div class="flex justify-between text-[10px] font-mono text-slate-400 border-t border-slate-100 pt-2">
+<span>Mon</span>
+<span>Tue</span>
+<span>Wed</span>
+<span>Thu</span>
+<span>Fri</span>
+<span class="font-bold text-slate-700">Sat (15.2T)</span>
+<span class="font-bold text-emerald-600">Today (14.8T)</span>
+</div>
+</div>
+</section>
+<!-- ===================================================================== -->
+<!-- SECTION 7: RECENT OPERATIONAL ACTIVITY LOG                            -->
+<!-- ===================================================================== -->
+<section class="bg-white rounded-2xl border border-slate-200/90 shadow-card p-5 flex flex-col gap-4">
+<div class="flex items-center justify-between flex-wrap gap-2 pb-2 border-b border-slate-100">
+<div class="flex items-center gap-2">
+<h2 class="text-sm font-bold tracking-tight text-slate-900">Recent Operational Activity Log</h2>
+<span class="relative flex h-2 w-2">
+<span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+<span class="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+</span>
+<span class="text-[11px] font-mono text-slate-400">Live testbed entries</span>
+</div>
+<button class="text-xs font-mono text-brand-600 font-semibold hover:underline flex items-center gap-1">
+<span>Export Activity Log (.csv)</span>
+<span class="material-symbols-outlined text-[14px]">arrow_forward</span>
+</button>
+</div>
+<div class="flex flex-col divide-y divide-slate-100 text-xs font-sans">
+<!-- Entry 1 -->
+<div class="py-2.5 flex items-start justify-between gap-4 hover:bg-slate-50 px-2 rounded-lg transition-colors">
+<div class="flex items-start gap-3 min-w-0">
+<div class="h-7 w-7 rounded-lg bg-emerald-100 text-emerald-800 flex items-center justify-center flex-shrink-0 mt-0.5">
+<span class="material-symbols-outlined text-[16px]">local_shipping</span>
+</div>
+<div class="flex flex-col min-w-0">
+<span class="font-semibold text-slate-900 truncate">
+                Vehicle TRK-01 dispatched to Maharaj Bada (BIN-GWL-108)
+              </span>
+<span class="text-slate-500 text-[11px] font-mono">
+                Ultrasonic fill sensor triggered 94% threshold. Compactor assigned with high-priority waypoint.
+              </span>
+</div>
+</div>
+<span class="text-[11px] font-mono text-slate-400 flex-shrink-0">10:14:22 IST</span>
+</div>
+<!-- Entry 2 -->
+<div class="py-2.5 flex items-start justify-between gap-4 hover:bg-slate-50 px-2 rounded-lg transition-colors">
+<div class="flex items-start gap-3 min-w-0">
+<div class="h-7 w-7 rounded-lg bg-sky-100 text-sky-800 flex items-center justify-center flex-shrink-0 mt-0.5">
+<span class="material-symbols-outlined text-[16px]">check_circle</span>
+</div>
+<div class="flex flex-col min-w-0">
+<span class="font-semibold text-slate-900 truncate">
+                Bin GWL-204 at Thatipur cleared and verified by sensor
+              </span>
+<span class="text-slate-500 text-[11px] font-mono">
+                Empty state confirmed by ultrasonic transceiver. 380 kg net collection registered by TRK-04 EV.
+              </span>
+</div>
+</div>
+<span class="text-[11px] font-mono text-slate-400 flex-shrink-0">10:08:15 IST</span>
+</div>
+<!-- Entry 3 -->
+<div class="py-2.5 flex items-start justify-between gap-4 hover:bg-slate-50 px-2 rounded-lg transition-colors">
+<div class="flex items-start gap-3 min-w-0">
+<div class="h-7 w-7 rounded-lg bg-emerald-100 text-emerald-800 flex items-center justify-center flex-shrink-0 mt-0.5">
+<span class="material-symbols-outlined text-[16px]">alt_route</span>
+</div>
+<div class="flex flex-col min-w-0">
+<span class="font-semibold text-slate-900 truncate">
+                Route re-calculated to avoid traffic near Phool Bagh
+              </span>
+<span class="text-slate-500 text-[11px] font-mono">
+                Dynamic rerouting heuristic adjusted 3 vehicle paths, saving estimated 18 operational minutes.
+              </span>
+</div>
+</div>
+<span class="text-[11px] font-mono text-slate-400 flex-shrink-0">09:52:40 IST</span>
+</div>
+<!-- Entry 4 -->
+<div class="py-2.5 flex items-start justify-between gap-4 hover:bg-slate-50 px-2 rounded-lg transition-colors">
+<div class="flex items-start gap-3 min-w-0">
+<div class="h-7 w-7 rounded-lg bg-rose-100 text-rose-800 flex items-center justify-center flex-shrink-0 mt-0.5">
+<span class="material-symbols-outlined text-[16px]">warning</span>
+</div>
+<div class="flex flex-col min-w-0">
+<span class="font-semibold text-rose-600 truncate">
+                Critical fill alert: BIN-GWL-518 Morar Subzi Mandi reached 92% capacity
+              </span>
+<span class="text-slate-500 text-[11px] font-mono">
+                Rapid fill spike (+16%/hr). Nearest active vehicle TRK-06 assigned with priority flag.
+              </span>
+</div>
+</div>
+<span class="text-[11px] font-mono text-rose-500 font-bold flex-shrink-0">09:41:05 IST</span>
+</div>
+</div>
+</section>
+</main>
+</div>
+<!-- Interactive JavaScript for Viva Demonstration -->
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const optBtn = document.getElementById('optimizeHeaderBtn');
+    if (optBtn) {
+      optBtn.addEventListener('click', () => {
+        const original = optBtn.innerHTML;
+        optBtn.innerHTML = `
+          <span class="material-symbols-outlined text-[16px] text-brand-400 animate-spin">refresh</span>
+          <span>Optimizing Gwalior Circuits...</span>
+        `;
+        optBtn.classList.add('opacity-80', 'pointer-events-none');
+
+        setTimeout(() => {
+          optBtn.innerHTML = `
+            <span class="material-symbols-outlined text-[16px] text-emerald-400">check_circle</span>
+            <span>Circuits Optimized (-22.4% Distance)</span>
+          `;
+          optBtn.classList.remove('opacity-80');
+          optBtn.classList.add('bg-emerald-950', 'border-emerald-500');
+
+          setTimeout(() => {
+            optBtn.innerHTML = original;
+            optBtn.classList.remove('bg-emerald-950', 'border-emerald-500', 'pointer-events-none');
+          }, 3200);
+        }, 1000);
+      });
+    }
+  });
+</script>
+</body></html>
