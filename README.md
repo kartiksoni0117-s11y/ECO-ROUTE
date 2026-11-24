@@ -30,3 +30,5 @@ where id = 'AUTH_USER_UUID';
 ```
 
 Role changes are not exposed through the browser. RLS permits public reads only for records explicitly marked public and restricts available writes by role. Collection recording and vehicle-position ingestion remain disabled until transactional RPC/Edge Function endpoints are implemented.
+# ECO-ROUTE
+Smart Waste Collection Route Planner – Gwalior
