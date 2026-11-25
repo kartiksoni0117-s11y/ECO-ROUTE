@@ -81,7 +81,7 @@
 <!-- ========================================================================= -->
 <!-- SIDEBAR: ULTRA-CLEAN ENTERPRISE & COLLEGE CAPSTONE CHROME                 -->
 <!-- ========================================================================= -->
-<aside class="fixed left-0 top-0 h-full w-64 bg-slate-950 text-slate-300 z-50 flex flex-col justify-between border-r border-slate-800 shadow-2xl select-none">
+<aside class="dashboard-sidebar fixed left-0 top-0 h-full w-64 bg-slate-950 text-slate-300 z-50 flex flex-col justify-between border-r border-slate-800 shadow-2xl select-none">
 <div class="flex flex-col">
 <!-- App Brandmark -->
 <div class="h-16 px-5 flex items-center justify-between border-b border-slate-800/80 bg-slate-950/90 backdrop-blur-md">
@@ -238,11 +238,11 @@
 </div>
 </header>
 <!-- Main Body Area -->
-<main class="p-6 flex flex-col gap-6 w-full max-w-[1720px] mx-auto">
+<main class="dashboard-main p-6 flex flex-col gap-6 w-full max-w-[1720px] mx-auto">
 <!-- ===================================================================== -->
 <!-- SECTION 1: OPERATIONS COMMAND STRIP (GWALIOR FOCUS)                   -->
 <!-- ===================================================================== -->
-<div class="flex flex-col lg:flex-row lg:items-center justify-between gap-4 p-5 rounded-2xl bg-white border border-slate-200/90 shadow-card">
+<div class="dashboard-intro-panel flex flex-col lg:flex-row lg:items-center justify-between gap-4 p-5 rounded-2xl bg-white border border-slate-200/90 shadow-card">
 <div class="flex flex-col gap-1">
 <div class="flex items-center gap-2.5 flex-wrap">
 <h1 id="overview" class="text-xl font-bold tracking-tight text-slate-900">Gwalior Municipal Waste Logistics &amp; Dynamic Route Optimization</h1>
@@ -274,9 +274,9 @@
 <!-- ===================================================================== -->
 <!-- SECTION 2: TOP 5 TELEMETRY KPI METRICS                                -->
 <!-- ===================================================================== -->
-<section class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-5 gap-4">
+<section class="dashboard-kpi-grid grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-5 gap-4">
 <!-- 1) Total Waste Bins -->
-<div class="bg-white p-4 rounded-2xl border border-slate-200/90 shadow-card flex flex-col justify-between gap-2.5 hover:border-slate-300 transition-all">
+<div class="dashboard-kpi-card dashboard-kpi-card--bins bg-white p-4 rounded-2xl border border-slate-200/90 shadow-card flex flex-col justify-between gap-2.5 hover:border-slate-300 transition-all">
 <div class="flex items-start justify-between">
 <div class="flex flex-col">
 <span class="text-[11px] font-mono uppercase tracking-wider text-slate-500 font-medium">Total Waste Bins</span>
@@ -298,7 +298,7 @@
 </div>
 </div>
 <!-- 2) Overflowing Bins -->
-<div class="bg-white p-4 rounded-2xl border border-rose-200/90 shadow-card flex flex-col justify-between gap-2.5 hover:border-rose-300 transition-all bg-rose-50/20">
+<div class="dashboard-kpi-card dashboard-kpi-card--urgent bg-white p-4 rounded-2xl border border-rose-200/90 shadow-card flex flex-col justify-between gap-2.5 hover:border-rose-300 transition-all bg-rose-50/20">
 <div class="flex items-start justify-between">
 <div class="flex flex-col">
 <span class="text-[11px] font-mono uppercase tracking-wider text-rose-700 font-medium">Overflowing Bins</span>
@@ -320,7 +320,7 @@
 </div>
 </div>
 <!-- 3) Active Collection Vehicles -->
-<div class="bg-white p-4 rounded-2xl border border-slate-200/90 shadow-card flex flex-col justify-between gap-2.5 hover:border-slate-300 transition-all">
+<div class="dashboard-kpi-card dashboard-kpi-card--vehicles bg-white p-4 rounded-2xl border border-slate-200/90 shadow-card flex flex-col justify-between gap-2.5 hover:border-slate-300 transition-all">
 <div class="flex items-start justify-between">
 <div class="flex flex-col">
 <span class="text-[11px] font-mono uppercase tracking-wider text-slate-500 font-medium">Active Vehicles</span>
@@ -342,7 +342,7 @@
 </div>
 </div>
 <!-- 4) Route Optimization Efficiency -->
-<div class="bg-white p-4 rounded-2xl border border-slate-200/90 shadow-card flex flex-col justify-between gap-2.5 hover:border-slate-300 transition-all">
+<div class="dashboard-kpi-card dashboard-kpi-card--efficiency bg-white p-4 rounded-2xl border border-slate-200/90 shadow-card flex flex-col justify-between gap-2.5 hover:border-slate-300 transition-all">
 <div class="flex items-start justify-between">
 <div class="flex flex-col">
 <span class="text-[11px] font-mono uppercase tracking-wider text-slate-500 font-medium">Optimization Efficiency</span>
@@ -364,7 +364,7 @@
 </div>
 </div>
 <!-- 5) Distance Saved -->
-<div class="bg-white p-4 rounded-2xl border border-emerald-200/90 shadow-card flex flex-col justify-between gap-2.5 hover:border-emerald-300 transition-all bg-emerald-50/20">
+<div class="dashboard-kpi-card dashboard-kpi-card--saved bg-white p-4 rounded-2xl border border-emerald-200/90 shadow-card flex flex-col justify-between gap-2.5 hover:border-emerald-300 transition-all bg-emerald-50/20">
 <div class="flex items-start justify-between">
 <div class="flex flex-col">
 <span class="text-[11px] font-mono uppercase tracking-wider text-emerald-800 font-medium">Distance Saved</span>
@@ -389,7 +389,7 @@
 <!-- ===================================================================== -->
 <!-- SECTION 3: BEFORE VS AFTER ROUTE OPTIMIZATION BENCHMARK (FOR VIVA)   -->
 <!-- ===================================================================== -->
-<section class="p-5 rounded-2xl bg-white border border-slate-200/90 shadow-card flex flex-col gap-4">
+<section class="dashboard-benchmark p-5 rounded-2xl bg-white border border-slate-200/90 shadow-card flex flex-col gap-4">
 <div class="flex items-center justify-between pb-3 border-b border-slate-100 flex-wrap gap-2">
 <div class="flex flex-col">
 <div class="flex items-center gap-2">
@@ -406,7 +406,7 @@
 </div>
 <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
 <!-- Metric 1: Original Route -->
-<div class="p-3.5 rounded-xl bg-slate-50 border border-slate-200 flex flex-col justify-between">
+<div class="dashboard-benchmark-card dashboard-benchmark-card--baseline p-3.5 rounded-xl bg-slate-50 border border-slate-200 flex flex-col justify-between">
 <span class="text-[11px] font-mono text-slate-500 uppercase font-medium">Original Traditional Route</span>
 <div class="mt-1">
 <span class="text-2xl font-bold font-mono text-slate-800">190.4 km</span>
@@ -417,7 +417,7 @@
           </div>
 </div>
 <!-- Metric 2: EcoRoute AI-Optimized -->
-<div class="p-3.5 rounded-xl bg-emerald-50/70 border border-emerald-200 flex flex-col justify-between">
+<div class="dashboard-benchmark-card dashboard-benchmark-card--optimized p-3.5 rounded-xl bg-emerald-50/70 border border-emerald-200 flex flex-col justify-between">
 <span class="text-[11px] font-mono text-emerald-800 uppercase font-semibold">EcoRoute AI-Optimized Route</span>
 <div class="mt-1">
 <span class="text-2xl font-bold font-mono text-emerald-700">147.8 km</span>
@@ -428,7 +428,7 @@
           </div>
 </div>
 <!-- Metric 3: Net Distance Saved -->
-<div class="p-3.5 rounded-xl bg-slate-900 text-white border border-slate-800 flex flex-col justify-between">
+<div class="dashboard-benchmark-card dashboard-benchmark-card--distance p-3.5 rounded-xl bg-slate-900 text-white border border-slate-800 flex flex-col justify-between">
 <span class="text-[11px] font-mono text-emerald-400 uppercase font-semibold">Net Distance Saved</span>
 <div class="mt-1">
 <span class="text-2xl font-bold font-mono text-white">-42.6 km</span>
@@ -439,7 +439,7 @@
           </div>
 </div>
 <!-- Metric 4: Estimated Time Saved -->
-<div class="p-3.5 rounded-xl bg-slate-900 text-white border border-slate-800 flex flex-col justify-between">
+<div class="dashboard-benchmark-card dashboard-benchmark-card--time p-3.5 rounded-xl bg-slate-900 text-white border border-slate-800 flex flex-col justify-between">
 <span class="text-[11px] font-mono text-brand-300 uppercase font-semibold">Estimated Time Saved</span>
 <div class="mt-1">
 <span class="text-2xl font-bold font-mono text-white">2h 55m</span>
@@ -451,29 +451,27 @@
 </div>
 </div>
 <!-- Visual Progress Comparison Bar -->
-<div class="p-3.5 rounded-xl bg-slate-100/80 border border-slate-200 flex flex-col gap-2">
+<div class="dashboard-benchmark-comparison p-3.5 rounded-xl bg-slate-100/80 border border-slate-200 flex flex-col gap-2">
 <div class="flex justify-between items-center text-xs font-mono">
 <span class="text-slate-700 font-semibold">Distance Comparison: Traditional (190.4 km) vs EcoRoute AI (147.8 km)</span>
 <span class="text-emerald-700 font-bold">Δ = 42.6 km saved (22.4% reduction)</span>
 </div>
-<div class="relative w-full h-4 bg-slate-200 rounded-full overflow-hidden flex">
-<div class="bg-slate-400 h-full flex items-center justify-end pr-2 text-[9px] font-mono text-white font-bold" style="width: 100%">
-            Traditional Fixed Route: 190.4 km
-          </div>
+<div class="dashboard-comparison-track dashboard-comparison-track--traditional relative w-full h-4 bg-slate-200 rounded-full overflow-hidden flex">
+<div class="dashboard-comparison-fill dashboard-comparison-fill--traditional bg-slate-400 h-full flex items-center justify-end pr-2 text-[9px] font-mono text-white font-bold" style="width: 100%"></div>
+<span class="dashboard-comparison-label">Traditional Fixed Route: 190.4 km</span>
 </div>
-<div class="relative w-full h-4 bg-slate-200 rounded-full overflow-hidden flex">
-<div class="bg-gradient-to-r from-emerald-500 to-teal-400 h-full flex items-center justify-end pr-2 text-[9px] font-mono text-slate-950 font-bold" style="width: 77.6%">
-            EcoRoute AI Optimized: 147.8 km
-          </div>
+<div class="dashboard-comparison-track dashboard-comparison-track--optimized relative w-full h-4 bg-slate-200 rounded-full overflow-hidden flex">
+<div class="dashboard-comparison-fill dashboard-comparison-fill--optimized bg-gradient-to-r from-emerald-500 to-teal-400 h-full flex items-center justify-end pr-2 text-[9px] font-mono text-slate-950 font-bold" style="width: 77.6%"></div>
+<span class="dashboard-comparison-label">EcoRoute AI Optimized: 147.8 km</span>
 </div>
 </div>
 </section>
 <!-- ===================================================================== -->
 <!-- SECTION 4: REALISTIC GWALIOR GIS LIVE MAP & PRIORITY QUEUE           -->
 <!-- ===================================================================== -->
-<section class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+<section class="dashboard-map-priority-grid grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
 <!-- LEFT 8 COLS: COMMANDING LIVE TELEMETRY GIS VECTOR MAP STAGE -->
-<div class="lg:col-span-8 bg-white rounded-2xl border border-slate-200/90 shadow-card p-4 sm:p-5 flex flex-col gap-4">
+<div class="dashboard-map-panel lg:col-span-8 bg-white rounded-2xl border border-slate-200/90 shadow-card p-4 sm:p-5 flex flex-col gap-4">
 <!-- Top Map HUD Toolbar -->
 <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
 <div class="flex items-center gap-2.5">
@@ -509,7 +507,7 @@
 </div>
 </div>
 <!-- THE MAP CANVAS CONTAINER: min-h-[580px] -->
-<div class="relative w-full h-[580px] rounded-xl overflow-hidden bg-slate-925 select-none border border-slate-800 shadow-inner map-grid-pattern">
+<div class="dashboard-map-canvas relative w-full h-[580px] rounded-xl overflow-hidden bg-slate-925 select-none border border-slate-800 shadow-inner map-grid-pattern">
 <!-- Scaled Vector SVG Network for Gwalior Real Urban Layout -->
 <svg class="absolute inset-0 w-full h-full" preserveaspectratio="none" viewbox="0 0 1000 600" xmlns="http://www.w3.org/2000/svg">
 <defs>
@@ -801,7 +799,7 @@
 </div>
 </div>
 <!-- RIGHT 4 COLS: PRIORITY WASTE BINS (IMMEDIATE ATTENTION) -->
-<div class="lg:col-span-4 bg-white rounded-2xl border border-slate-200/90 shadow-card p-5 flex flex-col justify-between h-[660px]">
+<div class="dashboard-priority-panel lg:col-span-4 bg-white rounded-2xl border border-slate-200/90 shadow-card p-5 flex flex-col justify-between h-[660px]">
 <div class="flex flex-col gap-3 min-h-0">
 <div class="flex items-center justify-between pb-3 border-b border-slate-100">
 <div class="flex flex-col">
